@@ -1,0 +1,13 @@
+{
+  "name": "n8n",
+  "version": "1.0.0",
+  "packageManager": "yarn@2.4.1",
+  "main": "index.js",
+  "scripts": {
+    "pkg:n8n": "pkg main.js -c pkg.config.json",
+    "postinstall": "patch-package"
+  },
+  "dependencies": {
+    "n8n": "^2.1.4"
+  }
+}

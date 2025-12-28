@@ -1,0 +1,11 @@
+{
+  "pkg": {
+    "assets": [
+      "node_modules/**/*"
+    ],
+    "ignore": [
+      "**/node_modules/@yao-pkg/pkg/**"
+    ],
+    "outputPath": "dist"
+  }
+}

@@ -13,6 +13,8 @@ pub fn run() {
             n8n::start_n8n();
             Ok(())
         })
+        // HTTP plugin
+        .plugin(tauri_plugin_http::init())
         // Sql store plugin
         .plugin(tauri_plugin_sql::Builder::new().build())
         // Simple Store plugin

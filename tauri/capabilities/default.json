@@ -7,6 +7,14 @@
   ],
   "permissions": [
     "core:default",
+    {
+      "identifier": "http:default",
+      "allow": [
+        {
+          "url": "http://localhost:5678/*"
+        }
+      ]
+    },
     "opener:default",
     "notification:default",
     "store:default",
