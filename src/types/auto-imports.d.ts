@@ -9,6 +9,7 @@ declare global {
   const DiscordIcon: typeof import('../components/icons').DiscordIcon
   const GithubIcon: typeof import('../components/icons').GithubIcon
   const HeartFilledIcon: typeof import('../components/icons').HeartFilledIcon
+  const Initialize: typeof import('../components/initialize').Initialize
   const Link: typeof import('react-router-dom').Link
   const Logo: typeof import('../components/icons').Logo
   const MoonFilledIcon: typeof import('../components/icons').MoonFilledIcon

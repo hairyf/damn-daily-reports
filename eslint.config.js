@@ -6,4 +6,7 @@ export default antfu({
   rules: {
     'react/no-array-index-key': 'off',
   },
+  ignores: [
+    'sidecar-app/n8n/main.js',
+  ],
 })
