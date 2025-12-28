@@ -2,10 +2,10 @@ import { Card, CardBody } from '@heroui/react'
 
 function Page() {
   return (
-    <layouts.default title="Overview">
-      <Card className="flex-1">
+    <layouts.default title="Settings">
+      <Card>
         <CardBody>
-          This is the overview page
+          This is the settings page
         </CardBody>
       </Card>
     </layouts.default>

@@ -1,28 +1,31 @@
-import { Link } from '@heroui/react'
+import clsx from 'clsx'
 import { Navbar } from '@/layouts/components/navbar'
+import { Sidebar } from '@/layouts/components/sidebar'
 
-export function DefaultLayout({
-  children,
-}: {
+export interface DefaultLayoutProps {
+  title?: string
   children: React.ReactNode
-}) {
+  classNames?: {
+    root?: string
+    main?: string
+  }
+}
+
+export function DefaultLayout(props: DefaultLayoutProps) {
   return (
-    <div className="relative flex flex-col min-h-screen bg-background/80 backdrop-blur-xl">
-      <Navbar />
-      <main className="container mx-auto max-w-7xl px-6 flex-grow pt-16">
-        {children}
-      </main>
-      <footer className="w-full flex items-center justify-center py-3">
-        <Link
-          isExternal
-          className="flex items-center gap-1 text-current"
-          href="https://heroui.com"
-          title="heroui.com homepage"
-        >
-          <span className="text-default-600">Powered by</span>
-          <p className="text-primary">HeroUI</p>
-        </Link>
-      </footer>
+    <div className={clsx('relative flex min-h-screen bg-background/80 backdrop-blur-xl', props.classNames?.root)}>
+      <Sidebar />
+      <div className="flex flex-col flex-1">
+        <Navbar />
+        <main className={clsx('container mx-auto max-w-7xl px-6 pb-6 flex flex-col flex-grow', props.classNames?.main)}>
+          {props.title && (
+            <div className="mb-4">
+              <span className={title({ size: 'sm' })}>{props.title}</span>
+            </div>
+          )}
+          {props.children}
+        </main>
+      </div>
     </div>
   )
 }
