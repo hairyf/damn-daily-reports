@@ -8,3 +8,5 @@ onlyBuiltDependencies:
   - protobufjs
   - sqlite3
   - ssh2
+packages:
+  - 'sidecar-app/n8n'

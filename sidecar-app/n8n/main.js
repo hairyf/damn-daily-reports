@@ -1,4 +1,7 @@
-/* eslint-disable antfu/no-import-node-modules-by-path */
-// 使用拼接字符串的方式引入 n8n，避免 pkg 引用
-// 为了更好的兼容性，node_modules 作为 assets 打包
-require('./node_modules/n8n/bin/n8n')
+import { app } from 'electron'
+import { fork } from 'child_process'
+
+app.whenReady().then(() => {
+  const childProcess = fork(require.resolve('./main.n8n.js'))
+  childProcess.on('close', (code) => console.warn(`n8n child process exited with code ${code}`))
+})

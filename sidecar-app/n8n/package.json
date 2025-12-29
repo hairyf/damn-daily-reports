@@ -1,18 +1,8 @@
 {
   "name": "n8n",
   "version": "1.0.0",
-  "packageManager": "yarn@2.4.1",
+  "packageManager": "pnpm@10.17.1",
   "main": "index.js",
-  "scripts": {
-    "pkg:n8n": "pkg main.js -c pkg.confg.json --out-path dist",
-    "build:n8n": "tsup",
-    "postinstall": "patch-package"
-  },
-  "pkg": {
-    "assets": [
-      "node_modules/**/*"
-    ]
-  },
   "dependencies": {
     "n8n": "^2.1.4"
   }
