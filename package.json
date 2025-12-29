@@ -4,6 +4,9 @@
   "version": "0.1.0",
   "private": true,
   "packageManager": "pnpm@10.17.1",
+  "engines": {
+    "node": "^20.19"
+  },
   "pnpm": {
     "resolutions": {
       "p-retry": "4.2.0"
@@ -18,7 +21,10 @@
       "protobufjs",
       "sqlite3",
       "ssh2"
-    ]
+    ],
+    "patchedDependencies": {
+      "n8n-editor-ui": "patches/n8n-editor-ui.patch"
+    }
   },
   "scripts": {
     "dev": "vite",

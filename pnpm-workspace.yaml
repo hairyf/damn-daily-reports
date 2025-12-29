@@ -1,3 +1,5 @@
+packages:
+  - sidecar-app/n8n-process
+
 ignoredBuiltDependencies:
   - electron
-

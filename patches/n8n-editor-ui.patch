@@ -1,7 +1,7 @@
-diff --git a/node_modules/n8n-editor-ui/dist/assets/builder.store-D_RDTxxI.js b/node_modules/n8n-editor-ui/dist/assets/builder.store-D_RDTxxI.js
-index 283e08f..2d7cbe2 100644
---- a/node_modules/n8n-editor-ui/dist/assets/builder.store-D_RDTxxI.js
-+++ b/node_modules/n8n-editor-ui/dist/assets/builder.store-D_RDTxxI.js
+diff --git a/dist/assets/builder.store-D_RDTxxI.js b/dist/assets/builder.store-D_RDTxxI.js
+index 283e08f4f647a5c2eb6a1ef3ba123c4bea7dee7a..2d7cbe2cf3a8ba658234644293122fe24d690460 100644
+--- a/dist/assets/builder.store-D_RDTxxI.js
++++ b/dist/assets/builder.store-D_RDTxxI.js
 @@ -2025,6 +2025,16 @@ var registerCommunityEdition = async (context, params) => {
  	return await makeRestApiRequest(context, "POST", "/license/enterprise/community-registered", params);
  };
