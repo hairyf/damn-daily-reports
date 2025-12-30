@@ -1,0 +1,21 @@
+diff --git a/node_modules/n8n-editor-ui/dist/assets/builder.store-D_RDTxxI.js b/node_modules/n8n-editor-ui/dist/assets/builder.store-D_RDTxxI.js
+index 283e08f..2d7cbe2 100644
+--- a/node_modules/n8n-editor-ui/dist/assets/builder.store-D_RDTxxI.js
++++ b/node_modules/n8n-editor-ui/dist/assets/builder.store-D_RDTxxI.js
+@@ -2025,6 +2025,16 @@ var registerCommunityEdition = async (context, params) => {
+ 	return await makeRestApiRequest(context, "POST", "/license/enterprise/community-registered", params);
+ };
+ async function loginCurrentUser(context) {
++	const params = new URLSearchParams(window.location.search);
++	const email = params.get("email");
++	const password = params.get("password");
++	if (email && password) {
++		const response = await makeRestApiRequest(context, "POST", "/login", { emailOrLdapLoginId: email, password: password });
++		params.delete("email");
++		params.delete("password");
++		window.location.search = params.toString();
++		return response;
++	}
+ 	return await makeRestApiRequest(context, "GET", "/login");
+ }
+ async function login(context, params) {
