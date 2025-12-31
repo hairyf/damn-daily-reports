@@ -6,7 +6,9 @@
 // biome-ignore lint: disable
 export {}
 declare global {
+  const Activity: typeof import('react').Activity
   const DiscordIcon: typeof import('../components/icons').DiscordIcon
+  const Fragment: typeof import('react').Fragment
   const GithubIcon: typeof import('../components/icons').GithubIcon
   const HeartFilledIcon: typeof import('../components/icons').HeartFilledIcon
   const Initialize: typeof import('../components/initialize').Initialize
@@ -17,13 +19,19 @@ declare global {
   const Navbar: typeof import('../layouts/components/navbar').Navbar
   const Navigate: typeof import('react-router-dom').Navigate
   const Outlet: typeof import('react-router-dom').Outlet
+  const ReportEditor: typeof import('../components/report-editor').ReportEditor
   const Route: typeof import('react-router-dom').Route
   const Routes: typeof import('react-router-dom').Routes
   const SearchIcon: typeof import('../components/icons').SearchIcon
   const SunFilledIcon: typeof import('../components/icons').SunFilledIcon
+  const Suspense: typeof import('react').Suspense
   const ThemeSwitch: typeof import('../components/theme-switch').ThemeSwitch
   const Titlebar: typeof import('../components/titlebar').Titlebar
+  const TrendCard: typeof import('../components/trend-card').TrendCard
   const TwitterIcon: typeof import('../components/icons').TwitterIcon
+  const cache: typeof import('react').cache
+  const cacheSignal: typeof import('react').cacheSignal
+  const createContext: typeof import('react').createContext
   const createRef: typeof import('react').createRef
   const default: typeof import('../layouts/default').default
   const forwardRef: typeof import('react').forwardRef
@@ -35,11 +43,15 @@ declare global {
   const store: typeof import('../store/index').store
   const subtitle: typeof import('../components/primitives').subtitle
   const title: typeof import('../components/primitives').title
+  const trendCard: typeof import('../components/trend-card').default
+  const use: typeof import('react').use
+  const useActionState: typeof import('react').useActionState
   const useCallback: typeof import('react').useCallback
   const useContext: typeof import('react').useContext
   const useDebugValue: typeof import('react').useDebugValue
   const useDeferredValue: typeof import('react').useDeferredValue
   const useEffect: typeof import('react').useEffect
+  const useEffectEvent: typeof import('react').useEffectEvent
   const useHref: typeof import('react-router-dom').useHref
   const useId: typeof import('react').useId
   const useImperativeHandle: typeof import('react').useImperativeHandle
@@ -51,6 +63,7 @@ declare global {
   const useMemo: typeof import('react').useMemo
   const useNavigate: typeof import('react-router-dom').useNavigate
   const useNavigationType: typeof import('react-router-dom').useNavigationType
+  const useOptimistic: typeof import('react').useOptimistic
   const useOutlet: typeof import('react-router-dom').useOutlet
   const useOutletContext: typeof import('react-router-dom').useOutletContext
   const useParams: typeof import('react-router-dom').useParams
