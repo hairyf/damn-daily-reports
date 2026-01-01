@@ -33,17 +33,23 @@ declare global {
   const cacheSignal: typeof import('react').cacheSignal
   const createContext: typeof import('react').createContext
   const createRef: typeof import('react').createRef
+  const createReport: typeof import('../utils/mock-db').createReport
   const default: typeof import('../layouts/default').default
+  const deleteReport: typeof import('../utils/mock-db').deleteReport
   const forwardRef: typeof import('react').forwardRef
+  const getAllReports: typeof import('../utils/mock-db').getAllReports
+  const getReportById: typeof import('../utils/mock-db').getReportById
   const layouts: typeof import('../layouts/index').layouts
   const lazy: typeof import('react').lazy
   const memo: typeof import('react').memo
+  const searchReports: typeof import('../utils/mock-db').searchReports
   const siteConfig: typeof import('../config/site').siteConfig
   const startTransition: typeof import('react').startTransition
   const store: typeof import('../store/index').store
   const subtitle: typeof import('../components/primitives').subtitle
   const title: typeof import('../components/primitives').title
   const trendCard: typeof import('../components/trend-card').default
+  const updateReport: typeof import('../utils/mock-db').updateReport
   const use: typeof import('react').use
   const useActionState: typeof import('react').useActionState
   const useCallback: typeof import('react').useCallback
@@ -87,4 +93,7 @@ declare global {
   // @ts-ignore
   export type { ThemeSwitchProps } from '../components/theme-switch'
   import('../components/theme-switch')
+  // @ts-ignore
+  export type { Report } from '../utils/mock-db'
+  import('../utils/mock-db')
 }

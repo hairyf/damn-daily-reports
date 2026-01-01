@@ -20,6 +20,8 @@
     "opener:default",
     "notification:default",
     "store:default",
-    "sql:default"
+    "sql:default",
+    "dialog:default",
+    "fs:default"
   ]
 }

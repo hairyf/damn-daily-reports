@@ -1,10 +1,9 @@
-import { Button, Card, CardBody, Textarea } from '@heroui/react'
+import { Button, Card, CardBody } from '@heroui/react'
 import { input } from '@heroui/theme'
 import { Icon } from '@iconify/react'
 import Placeholder from '@tiptap/extension-placeholder'
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-import { useRef } from 'react'
 import { useHover, useKey } from 'react-use'
 
 export function ReportEditor() {

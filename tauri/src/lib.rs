@@ -20,6 +20,10 @@ pub fn run() {
         .plugin(tauri_plugin_notification::init())
         // Opener plugin
         .plugin(tauri_plugin_opener::init())
+        // Dialog plugin
+        .plugin(tauri_plugin_dialog::init())
+        // FS plugin
+        .plugin(tauri_plugin_fs::init())
         // Custom protocol plugin
         .invoke_handler(tauri::generate_handler![greet])
         .run(tauri::generate_context!())

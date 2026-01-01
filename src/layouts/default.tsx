@@ -17,13 +17,15 @@ export function DefaultLayout(props: DefaultLayoutProps) {
       <Sidebar />
       <div className="flex flex-col flex-1">
         <Navbar />
-        <main className={clsx('container mx-auto max-w-7xl px-6 pb-6 flex flex-col flex-grow', props.classNames?.main)}>
-          {props.title && (
-            <div className="mb-4">
-              <span className={title({ size: 'sm' })}>{props.title}</span>
-            </div>
-          )}
-          {props.children}
+        <main className="flex-grow relative">
+          <div className={clsx('px-6 pb-6 absolute top-0 left-0 w-full h-full flex flex-col overflow-y-auto', props.classNames?.main)}>
+            {props.title && (
+              <div className="mb-4">
+                <span className={title({ size: 'sm' })}>{props.title}</span>
+              </div>
+            )}
+            {props.children}
+          </div>
         </main>
       </div>
     </div>
