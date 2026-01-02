@@ -7,9 +7,13 @@
 export {}
 declare global {
   const Activity: typeof import('react').Activity
+  const Alimail: typeof import('../components/icons').Alimail
+  const ClickupIcon: typeof import('../components/icons').ClickupIcon
   const DiscordIcon: typeof import('../components/icons').DiscordIcon
   const Fragment: typeof import('react').Fragment
+  const GitIcon: typeof import('../components/icons').GitIcon
   const GithubIcon: typeof import('../components/icons').GithubIcon
+  const GmailIcon: typeof import('../components/icons').GmailIcon
   const HeartFilledIcon: typeof import('../components/icons').HeartFilledIcon
   const Initialize: typeof import('../components/initialize').Initialize
   const Link: typeof import('react-router-dom').Link
@@ -23,6 +27,7 @@ declare global {
   const Route: typeof import('react-router-dom').Route
   const Routes: typeof import('react-router-dom').Routes
   const SearchIcon: typeof import('../components/icons').SearchIcon
+  const SlackIcon: typeof import('../components/icons').SlackIcon
   const SunFilledIcon: typeof import('../components/icons').SunFilledIcon
   const Suspense: typeof import('react').Suspense
   const ThemeSwitch: typeof import('../components/theme-switch').ThemeSwitch
@@ -36,11 +41,14 @@ declare global {
   const createReport: typeof import('../utils/mock-db').createReport
   const deleteReport: typeof import('../utils/mock-db').deleteReport
   const forwardRef: typeof import('react').forwardRef
+  const getAllDatabaseItems: typeof import('../utils/mock-db').getAllDatabaseItems
   const getAllReports: typeof import('../utils/mock-db').getAllReports
+  const getDatabaseItemById: typeof import('../utils/mock-db').getDatabaseItemById
   const getReportById: typeof import('../utils/mock-db').getReportById
   const layouts: typeof import('../layouts/index').layouts
   const lazy: typeof import('react').lazy
   const memo: typeof import('react').memo
+  const searchDatabaseItems: typeof import('../utils/mock-db').searchDatabaseItems
   const searchReports: typeof import('../utils/mock-db').searchReports
   const siteConfig: typeof import('../config/site').siteConfig
   const startTransition: typeof import('react').startTransition
@@ -93,6 +101,6 @@ declare global {
   export type { ThemeSwitchProps } from '../components/theme-switch'
   import('../components/theme-switch')
   // @ts-ignore
-  export type { Report } from '../utils/mock-db'
+  export type { Report, DatabaseItem } from '../utils/mock-db'
   import('../utils/mock-db')
 }
