@@ -1,10 +1,4 @@
-import {
-  Button,
-  Navbar as HeroUINavbar,
-  Link,
-  NavbarContent,
-  NavbarItem,
-} from '@heroui/react'
+import { Navbar as HeroUINavbar } from '@heroui/react'
 
 export function InitiatorLayout() {
   return (
