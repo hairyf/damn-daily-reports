@@ -15,6 +15,7 @@ declare global {
   const DiscordIcon: typeof import('../components/icons').DiscordIcon
   const Fragment: typeof import('react').Fragment
   const GitIcon: typeof import('../components/icons').GitIcon
+  const GitSourceForm: typeof import('../components/souce-git-form').GitSourceForm
   const GithubIcon: typeof import('../components/icons').GithubIcon
   const GmailIcon: typeof import('../components/icons').GmailIcon
   const HeartFilledIcon: typeof import('../components/icons').HeartFilledIcon
@@ -37,6 +38,7 @@ declare global {
   const SettingOtherConfig: typeof import('../ui/setting-other-config').SettingOtherConfig
   const SettingUserInterfaceCard: typeof import('../ui/setting-user-interface-card').SettingUserInterfaceCard
   const SlackIcon: typeof import('../components/icons').SlackIcon
+  const SourceGitForm: typeof import('../components/souce-git-form').SourceGitForm
   const SourceIcon: typeof import('../components/source-icon').SourceIcon
   const SourceItem: typeof import('../components/source-item').SourceItem
   const SourceItemCard: typeof import('../components/source-item').SourceItemCard
@@ -52,6 +54,7 @@ declare global {
   const createContext: typeof import('react').createContext
   const createRef: typeof import('react').createRef
   const createReport: typeof import('../utils/mock-db').createReport
+  const createSource: typeof import('../utils/mock-db').createSource
   const deleteReport: typeof import('../utils/mock-db').deleteReport
   const forwardRef: typeof import('react').forwardRef
   const getAllDatabaseItems: typeof import('../utils/mock-db').getAllDatabaseItems
@@ -60,6 +63,7 @@ declare global {
   const getReportById: typeof import('../utils/mock-db').getReportById
   const getSetting: typeof import('../utils/settings-store').getSetting
   const getSettings: typeof import('../utils/settings-store').getSettings
+  const getSources: typeof import('../utils/mock-db').getSources
   const iconMap: typeof import('../components/source-icon').iconMap
   const layouts: typeof import('../layouts/index').layouts
   const lazy: typeof import('react').lazy
@@ -132,6 +136,6 @@ declare global {
   export type { ThemeSwitchProps } from '../components/theme-switch'
   import('../components/theme-switch')
   // @ts-ignore
-  export type { Report, DatabaseItem } from '../utils/mock-db'
+  export type { Report, DatabaseItem, SourceType, SourceConfig } from '../utils/mock-db'
   import('../utils/mock-db')
 }

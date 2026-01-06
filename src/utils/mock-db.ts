@@ -588,6 +588,7 @@ export async function searchDatabaseItems(query: string, source?: string): Promi
     return text.includes(query.toLowerCase())
   })
 
+
   if (source) {
     results = results.filter(item => item.source === source)
   }
@@ -597,4 +598,39 @@ export async function searchDatabaseItems(query: string, source?: string): Promi
       return 0
     return b.date.localeCompare(a.date)
   })
+}
+
+// ----------------------------------------------------------------------
+// Source Config Storage
+// ----------------------------------------------------------------------
+
+export type SourceType = 'git' | 'other' // extensible
+
+export interface SourceConfig {
+  id?: number
+  type: SourceType
+  name: string
+  config: Record<string, any>
+  created_at?: string
+  updated_at?: string
+}
+
+let mockSources: SourceConfig[] = []
+let nextSourceId = 1
+
+export async function createSource(source: Omit<SourceConfig, 'id' | 'created_at' | 'updated_at'>): Promise<number> {
+  await delay()
+  const newSource: SourceConfig = {
+    ...source,
+    id: nextSourceId++,
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  }
+  mockSources.push(newSource)
+  return newSource.id!
+}
+
+export async function getSources(): Promise<SourceConfig[]> {
+  await delay()
+  return [...mockSources]
 }

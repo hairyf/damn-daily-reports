@@ -1,63 +1,87 @@
 import { If } from '@hairy/react-lib'
-import { Button, Input, Select, SelectItem } from '@heroui/react'
+import { Button, Select, SelectItem } from '@heroui/react'
+import { Controller, FormProvider, useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
+import { sourceOptions } from '../../config/options'
+import { createSource } from '../../utils/mock-db'
 
 function Page() {
-  const [selectedSourceType, setSelectedSourceType] = useState<string>('')
-  return (
-    <div className="flex flex-col gap-4 max-w-lg mx-auto w-full">
-      <Select
-        label="Source Type"
-        labelPlacement="outside"
-        name="sourceType"
-        placeholder="Select source type"
-        selectedKeys={selectedSourceType ? [selectedSourceType] : []}
-        onSelectionChange={function (keys) {
-          const selected = Array.from(keys)[0] as string
-          setSelectedSourceType(selected || '')
-        }}
-      >
-        {sourceOptions.map((option) => {
-          const IconComponent = option.icon
-          return (
-            <SelectItem
-              key={option.value}
-              startContent={IconComponent ? <IconComponent size={16} /> : null}
-            >
-              {option.label}
-            </SelectItem>
-          )
-        })}
-      </Select>
-      <If cond={selectedSourceType === 'git'}>
-        <div className="flex gap-4">
-          <Input
-            label="Git URL"
-            labelPlacement="outside"
-            placeholder="Enter your Git URL"
-          />
-          <span className="mt-7.5">/</span>
-          <Input
-            label="Git Directory"
-            labelPlacement="outside"
-            placeholder="Enter your Git Directory"
-          />
-        </div>
-        <Input
-          label="Git Branch"
-          labelPlacement="outside"
-          placeholder="Enter your Git Branch"
-        />
-        <Input
-          label="Git Name"
-          labelPlacement="outside"
-          placeholder="Enter your Git Name"
-        />
-      </If>
+  const navigate = useNavigate()
+  const methods = useForm({
+    defaultValues: {
+      sourceType: '',
+      config: {},
+    },
+  })
 
-      <Button className="mt-4" color="primary">
-        Create
-      </Button>
-    </div>
+  const {
+    control,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = methods
+
+  const selectedSourceType = watch('sourceType')
+
+  const onSubmit = async (data: any) => {
+    try {
+      const { sourceType, ...config } = data
+      await createSource({
+        type: sourceType,
+        name: `${sourceType} source`, // TODO: add name field?
+        config,
+      })
+      navigate('/source')
+    }
+    catch (error) {
+      console.error('Failed to create source:', error)
+    }
+  }
+
+  return (
+    <FormProvider {...methods}>
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 max-w-lg mx-auto w-full">
+        <Controller
+          name="sourceType"
+          control={control}
+          rules={{ required: '请选择数据源类型' }}
+          render={({ field }) => (
+            <Select
+              label="Source Type"
+              labelPlacement="outside"
+              placeholder="Select source type"
+              selectedKeys={field.value ? [field.value] : []}
+              onSelectionChange={(keys) => {
+                const selected = Array.from(keys)[0] as string
+                field.onChange(selected || '')
+              }}
+              isInvalid={!!errors.sourceType}
+              errorMessage={errors.sourceType?.message as string}
+            >
+              {sourceOptions.map((option) => {
+                const IconComponent = option.icon
+                return (
+                  <SelectItem
+                    key={option.value}
+                    startContent={IconComponent ? <IconComponent size={16} /> : null}
+                  >
+                    {option.label}
+                  </SelectItem>
+                )
+              })}
+            </Select>
+          )}
+        />
+
+        <If cond={selectedSourceType === 'git'}>
+          <SourceGitForm />
+        </If>
+
+        <Button type="submit" className="mt-4" color="primary">
+          Create
+        </Button>
+      </form>
+    </FormProvider>
   )
 }
 
