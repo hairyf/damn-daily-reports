@@ -1,0 +1,23 @@
+generator kysely {
+    provider = "prisma-kysely"
+
+    // Optionally provide a destination directory for the generated file
+    // and a filename of your choice
+    output = "../src/config/"
+    fileName = "db.schema.ts"
+    // Optionally generate runtime enums to a separate file
+    enumFileName = "db.schema.enums.ts"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+model User {
+  id          String @id
+  name        String
+
+  /// @kyselyType('member' | 'admin')
+  role        String
+}

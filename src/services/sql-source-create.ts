@@ -6,8 +6,8 @@ export async function sql_createSource(input: SourceCreateInput): Promise<Source
   const now = new Date().toISOString()
 
   await db.execute(
-    'INSERT INTO Source (id, name, type, config, createdAt, updatedAt) VALUES (?, ?, ?, ?, ?, ?)',
-    [id, input.name, input.type, input.config, now, now],
+    'INSERT INTO Source (id, name, type, description, config, createdAt, updatedAt) VALUES (?, ?, ?, ?, ?, ?, ?)',
+    [id, input.name, input.type, input.description, input.config, now, now],
   )
 
   const result = await db.select<Source[]>(

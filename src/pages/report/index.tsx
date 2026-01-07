@@ -113,7 +113,7 @@ function Page() {
         <TableHeader>
           <TableColumn minWidth={120}>日期</TableColumn>
           <TableColumn minWidth={80}>类型</TableColumn>
-          <TableColumn minWidth={400}>内容</TableColumn>
+          <TableColumn minWidth={300}>内容</TableColumn>
           <TableColumn minWidth={120}>操作</TableColumn>
         </TableHeader>
         <TableBody

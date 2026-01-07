@@ -66,6 +66,7 @@ declare global {
   const getAllDatabaseItems: typeof import('../utils/mock-db').getAllDatabaseItems
   const getAllReports: typeof import('../utils/mock-db').getAllReports
   const getDatabaseItemById: typeof import('../utils/mock-db').getDatabaseItemById
+  const getKysely: typeof import('../config/db').getKysely
   const getReportById: typeof import('../utils/mock-db').getReportById
   const getSetting: typeof import('../utils/settings-store').getSetting
   const getSettings: typeof import('../utils/settings-store').getSettings
@@ -97,17 +98,23 @@ declare global {
   const settingsStore: typeof import('../config/store').settingsStore
   const siteConfig: typeof import('../config/site').siteConfig
   const sourceOptions: typeof import('../config/options').sourceOptions
+  const sql_createRecord: typeof import('../services/sql-record-create').sql_createRecord
   const sql_createReport: typeof import('../services/sql-report-create').sql_createReport
   const sql_createSource: typeof import('../services/sql-source-create').sql_createSource
+  const sql_deleteRecord: typeof import('../services/sql-record-delete').sql_deleteRecord
   const sql_deleteReport: typeof import('../services/sql-report-delete').sql_deleteReport
   const sql_deleteSource: typeof import('../services/sql-source-delete').sql_deleteSource
   const sql_isExistsIndex: typeof import('../services/sql-is-exists-index').sql_isExistsIndex
   const sql_isExistsTable: typeof import('../services/sql-is-exists-tables').sql_isExistsTable
+  const sql_queryRecordById: typeof import('../services/sql-record-query_id').sql_queryRecordById
+  const sql_queryRecords: typeof import('../services/sql-record-query').sql_queryRecords
   const sql_queryReportById: typeof import('../services/sql-report-query_id').sql_queryReportById
   const sql_queryReports: typeof import('../services/sql-report-query').sql_queryReports
   const sql_querySourceById: typeof import('../services/sql-source-query_id').sql_querySourceById
   const sql_querySources: typeof import('../services/sql-source-query').sql_querySources
   const sql_searchReports: typeof import('../services/sql-search-reports').sql_searchReports
+  const sql_updateRecord: typeof import('../services/sql-record-update').sql_updateRecord
+  const sql_updateReport: typeof import('../services/sql-report-update').sql_updateReport
   const startTransition: typeof import('react').startTransition
   const store: typeof import('../store/index').store
   const subtitle: typeof import('../components/primitives').subtitle
@@ -149,8 +156,11 @@ declare global {
 // for type re-export
 declare global {
   // @ts-ignore
-  export type { ReportCreateInput, SourceCreateInput, Source } from '../config/db.schema'
+  export type { Generated, Timestamp, User } from '../config/db.schema'
   import('../config/db.schema')
+  // @ts-ignore
+  export type { Source, Record, DB } from '../config/db'
+  import('../config/db')
   // @ts-ignore
   export type { SiteConfig } from '../config/site'
   import('../config/site')
@@ -185,8 +195,17 @@ declare global {
   export type { N8nNodeParameters, N8nNode, N8nConnectionItem, N8nConnections, N8nWorkflowSettings, N8nHomeProject, PostN8nWorkflowParams, PostN8nWorkflowResult } from '../services/post-n8n-workflow'
   import('../services/post-n8n-workflow')
   // @ts-ignore
+  export type { RecordQueryInput } from '../services/sql-record-query'
+  import('../services/sql-record-query')
+  // @ts-ignore
+  export type { RecordUpdateInput } from '../services/sql-record-update'
+  import('../services/sql-record-update')
+  // @ts-ignore
   export type { ReportSearchInput } from '../services/sql-report-query'
   import('../services/sql-report-query')
+  // @ts-ignore
+  export type { ReportUpdateInput } from '../services/sql-report-update'
+  import('../services/sql-report-update')
   // @ts-ignore
   export type { SourceQueryInput } from '../services/sql-source-query'
   import('../services/sql-source-query')

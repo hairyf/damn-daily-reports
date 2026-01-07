@@ -6,8 +6,8 @@ export async function sql_createReport(input: ReportCreateInput): Promise<Report
   const now = new Date().toISOString()
 
   await db.execute(
-    'INSERT INTO Report (id, name, sourceId, content, createdAt, updatedAt) VALUES (?, ?, ?, ?, ?, ?)',
-    [id, input.name, input.sourceId, input.content, now, now],
+    'INSERT INTO Report (id, name, type, content, createdAt, updatedAt) VALUES (?, ?, ?, ?, ?, ?)',
+    [id, input.name, input.type, input.content, now, now],
   )
 
   const result = await db.select<Report[]>(

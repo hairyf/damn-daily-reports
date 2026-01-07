@@ -11,6 +11,7 @@ export const setting = defineStore({
     autoSave: true,
     notifications: true,
     autoCheckUpdate: true,
+    deepseekApiKey: '',
   }),
 })
 

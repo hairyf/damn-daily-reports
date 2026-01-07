@@ -1,30 +1,30 @@
-import type { Report } from '../config/db.schema'
+import type { Record } from '../config/db.schema'
 import { db } from '../config/db'
 
-export interface ReportSearchInput {
+export interface RecordQueryInput {
   search?: string
-  type?: string
+  source?: string
   page?: number
   pageSize?: number
 }
 
-export async function sql_queryReports(input: ReportSearchInput): Promise<Report[]> {
-  const { search, type, page = 1, pageSize = 10 } = input
+export async function sql_queryRecords(input: RecordQueryInput = {}): Promise<Record[]> {
+  const { search, source, page = 1, pageSize = 10 } = input
 
   const conditions: string[] = []
   const params: any[] = []
 
   // 如果search不为空，添加搜索条件
   if (search) {
-    conditions.push('(name LIKE ? OR content LIKE ?)')
+    conditions.push('(summary LIKE ? OR data LIKE ?)')
     const searchPattern = `%${search}%`
     params.push(searchPattern, searchPattern)
   }
 
-  // 如果type不为空，添加类型过滤
-  if (type) {
-    conditions.push('type = ?')
-    params.push(type)
+  // 如果source不为空，添加来源过滤
+  if (source) {
+    conditions.push('source = ?')
+    params.push(source)
   }
 
   // 构建WHERE子句
@@ -39,11 +39,11 @@ export async function sql_queryReports(input: ReportSearchInput): Promise<Report
 
   // 构建完整查询
   const query = `
-    SELECT * FROM Report
+    SELECT * FROM Record
     ${whereClause}
     ORDER BY createdAt DESC
     ${limitClause}
   `.trim()
 
-  return db.select<Report[]>(query, params)
+  return db.select<Record[]>(query, params)
 }
