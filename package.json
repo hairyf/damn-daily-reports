@@ -21,6 +21,7 @@
     "@heroui/theme": "2.4.23",
     "@heroui/use-theme": "2.1.10",
     "@iconify/react": "^6.0.2",
+    "@overlastic/react": "^0.8.7",
     "@react-aria/visually-hidden": "3.8.28",
     "@tailwindcss/postcss": "4.1.11",
     "@tailwindcss/vite": "4.1.11",

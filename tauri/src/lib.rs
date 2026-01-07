@@ -1,4 +1,5 @@
 mod n8n;
+mod collector;
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 use tauri::Manager;
 
@@ -30,7 +31,12 @@ fn greet(name: &str) -> String {
         // FS plugin
         .plugin(tauri_plugin_fs::init())
         // Custom protocol plugin
-        .invoke_handler(tauri::generate_handler![greet, n8n::get_n8n_status])
+        .invoke_handler(tauri::generate_handler![
+            greet,
+            n8n::get_n8n_status,
+            collector::clickup::collect_daily_clickup,
+            collector::git::collect_daily_git
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

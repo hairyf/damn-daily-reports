@@ -4,11 +4,6 @@ import {
   Card,
   CardBody,
   Input,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
   Pagination,
   Select,
   SelectItem,
@@ -18,26 +13,20 @@ import {
   TableColumn,
   TableHeader,
   TableRow,
-  useDisclosure,
 } from '@heroui/react'
 import { Icon } from '@iconify/react'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { save } from '@tauri-apps/plugin-dialog'
-import { writeTextFile } from '@tauri-apps/plugin-fs'
-import { sendNotification } from '@tauri-apps/plugin-notification'
+import { useOverlay } from '@overlastic/react'
+import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { sql_queryReports } from '@/services/sql-report-query'
-import { deleteReport } from '@/utils/mock-db'
 
 function Page() {
   const navigate = useNavigate()
-  const queryClient = useQueryClient()
   const [searchQuery, setSearchQuery] = useState('')
   const debouncedSearchQuery = useDebounce(searchQuery, 300)
   const [typeFilter, setTypeFilter] = useState<string>('')
-  const { isOpen, onOpen, onClose } = useDisclosure()
-  const [deleteTarget, setDeleteTarget] = useState<number | null>(null)
+  const openDeleteReportModal = useOverlay(DeleteReportModal)
   const pagination = useOffsetPagination({
     pageSize: 7,
   })
@@ -59,58 +48,12 @@ function Page() {
     }),
   })
 
-  const deleteMutation = useMutation({
-    mutationFn: deleteReport,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['reports'] })
-      sendNotification({ title: '成功', body: '报告已删除' })
-      onClose()
-      setDeleteTarget(null)
-    },
-    onError: (error) => {
-      console.error('Failed to delete report:', error)
-      sendNotification({ title: '错误', body: '删除报告失败' })
-    },
-  })
-
-  async function handleDelete(id: number) {
-    deleteMutation.mutate(id)
-  }
-
-  function handleDeleteClick(id: number) {
-    setDeleteTarget(id)
-    onOpen()
-  }
-
   async function handleExportCSV() {
-    const headers = ['日期', '类型', '内容']
-    const rows = reports.map((report) => {
-      return [
-        report.date,
-        typeOptions.find((opt) => { return opt.value === report.type })?.label || report.type,
-        report.content.replace(/\n/g, ' ').substring(0, 100),
-      ]
-    })
-
-    const csvContent = [
-      headers.join(','),
-      ...rows.map((row) => {
-        return row.map((cell) => {
-          return `"${String(cell).replace(/"/g, '""')}"`
-        }).join(',')
-      }),
-    ].join('\n')
-
-    const fileName = `reports_${new Date().toISOString().split('T')[0]}.csv`
-    const filePath = await save({
-      defaultPath: fileName,
-      filters: [{ name: 'CSV', extensions: ['csv'] }],
-    })
-
-    if (filePath) {
-      await writeTextFile(filePath, `\uFEFF${csvContent}`)
-      sendNotification({ title: '成功', body: 'CSV 文件已导出' })
-    }
+    // TODO
+    // if (filePath) {
+    //   await writeTextFile(filePath, `\uFEFF${csvContent}`)
+    //   sendNotification({ title: '成功', body: 'CSV 文件已导出' })
+    // }
   }
 
   function getTypeLabel(type: string) {
@@ -122,13 +65,7 @@ function Page() {
     return text.length > 50 ? `${text.substring(0, 50)}...` : text
   }
 
-  // 分页计算
-  const totalPages = Math.ceil(reports.length / ITEMS_PER_PAGE)
-  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE
-  const endIndex = startIndex + ITEMS_PER_PAGE
-  const paginatedReports = reports.slice(startIndex, endIndex)
-
-  useWatch([searchQuery, typeFilter], () => setCurrentPage(1))
+  useWatch([searchQuery, typeFilter], () => pagination.pageChange(1))
 
   return (
     <>
@@ -180,14 +117,14 @@ function Page() {
           <TableColumn minWidth={120}>操作</TableColumn>
         </TableHeader>
         <TableBody
-          items={paginatedReports}
+          items={reports}
           isLoading={isLoading}
           emptyContent={isLoading ? '加载中...' : '暂无报告'}
         >
           {(item) => {
             return (
               <TableRow key={item.id}>
-                <TableCell>{item.date}</TableCell>
+                <TableCell>{item.createdAt}</TableCell>
                 <TableCell>{getTypeLabel(item.type)}</TableCell>
                 <TableCell>
                   {getContentPreview(item.content)}
@@ -209,9 +146,7 @@ function Page() {
                       size="sm"
                       variant="light"
                       color="danger"
-                      onPress={function () {
-                        handleDeleteClick(item.id!)
-                      }}
+                      onPress={openDeleteReportModal}
                     >
                       <Icon icon="lucide:trash" className="w-4 h-4" />
                     </Button>
@@ -223,45 +158,18 @@ function Page() {
         </TableBody>
       </Table>
 
-      {totalPages > 1 && (
+      {pagination.total > 1 && (
         <div className="flex justify-end pt-4">
           <Pagination
             className="pb-0"
-            total={totalPages}
-            page={currentPage}
-            onChange={setCurrentPage}
+            total={pagination.total}
+            page={pagination.page}
+            onChange={pagination.pageChange}
             showControls
             showShadow
           />
         </div>
       )}
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalContent>
-          {function (onClose) {
-            return (
-              <>
-                <ModalHeader className="flex flex-col gap-1">确认删除</ModalHeader>
-                <ModalBody>
-                  <p>确定要删除这条报告吗？此操作无法撤销。</p>
-                </ModalBody>
-                <ModalFooter>
-                  <Button variant="light" onPress={onClose}>
-                    取消
-                  </Button>
-                  <Button
-                    color="danger"
-                    onPress={() => {
-                      deleteTarget && handleDelete(deleteTarget)
-                    }}
-                  >
-                    删除
-                  </Button>
-                </ModalFooter>
-              </>
-            )
-          }}
-        </ModalContent>
-      </Modal>
     </>
   )
 }

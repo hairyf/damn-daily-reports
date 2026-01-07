@@ -9,7 +9,7 @@ export interface ReportCreateInput {
 export interface Report {
   id: string
   name: string
-  sourceId: string
+  type: string
   content: string
   createdAt: string
   updatedAt: string
@@ -18,6 +18,7 @@ export interface Report {
 export interface SourceCreateInput {
   name: string
   type: string
+  description: string
   config: string
 }
 
@@ -25,6 +26,7 @@ export interface Source {
   id: string
   name: string
   type: string
+  description: string
   config: string
   createdAt: string
   updatedAt: string
@@ -32,6 +34,10 @@ export interface Source {
 
 async function main() {
   await db_promise
+
+  // 先删除所有表
+  await db.execute('DROP TABLE IF EXISTS Source;')
+  await db.execute('DROP TABLE IF EXISTS Report;')
 
   // 启用外键约束
   await db.execute('PRAGMA foreign_keys = ON;')
@@ -43,6 +49,7 @@ async function main() {
         id TEXT PRIMARY KEY,
         name TEXT NOT NULL,
         type TEXT NOT NULL,
+        description TEXT NOT NULL,
         config TEXT NOT NULL,
         createdAt TEXT NOT NULL DEFAULT (datetime('now')),
         updatedAt TEXT NOT NULL DEFAULT (datetime('now'))
@@ -56,18 +63,12 @@ async function main() {
       CREATE TABLE Report (
         id TEXT PRIMARY KEY,
         name TEXT NOT NULL,
-        sourceId TEXT NOT NULL,
+        type TEXT NOT NULL,
         content TEXT NOT NULL,
         createdAt TEXT NOT NULL DEFAULT (datetime('now')),
-        updatedAt TEXT NOT NULL DEFAULT (datetime('now')),
-        FOREIGN KEY (sourceId) REFERENCES Source(id) ON DELETE CASCADE
+        updatedAt TEXT NOT NULL DEFAULT (datetime('now'))
       );
     `)
-  }
-
-  // 创建索引（如果不存在）
-  if (!await sql_isExistsIndex('idx_report_sourceId')) {
-    await db.execute(`CREATE INDEX idx_report_sourceId ON Report(sourceId);`)
   }
 }
 

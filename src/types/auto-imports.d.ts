@@ -12,6 +12,7 @@ declare global {
   const ClickupIcon: typeof import('../components/icons').ClickupIcon
   const DEFAULT_N8N_LOGIN_DATA: typeof import('../config/constants').DEFAULT_N8N_LOGIN_DATA
   const DEFAULT_N8N_REGISTER_DATA: typeof import('../config/constants').DEFAULT_N8N_REGISTER_DATA
+  const DeleteReportModal: typeof import('../components/delete-report-modal').DeleteReportModal
   const DiscordIcon: typeof import('../components/icons').DiscordIcon
   const Fragment: typeof import('react').Fragment
   const GitIcon: typeof import('../components/icons').GitIcon
@@ -51,6 +52,8 @@ declare global {
   const TwitterIcon: typeof import('../components/icons').TwitterIcon
   const cache: typeof import('react').cache
   const cacheSignal: typeof import('react').cacheSignal
+  const collectDailyClickup: typeof import('../services/collect-clickup').collectDailyClickup
+  const collectDailyGit: typeof import('../services/collect-git').collectDailyGit
   const createContext: typeof import('react').createContext
   const createRef: typeof import('react').createRef
   const createReport: typeof import('../utils/mock-db').createReport
@@ -68,12 +71,21 @@ declare global {
   const getSettings: typeof import('../utils/settings-store').getSettings
   const getSources: typeof import('../utils/mock-db').getSources
   const iconMap: typeof import('../components/source-icon').iconMap
+  const invokeCollectClickup: typeof import('../services/invoke-collect-clickup').invokeCollectClickup
+  const invokeCollectGit: typeof import('../services/invoke-collect-git').invokeCollectGit
   const isExistsIndex: typeof import('../utils/db').isExistsIndex
   const isExistsTable: typeof import('../utils/db').isExistsTable
   const layouts: typeof import('../layouts/index').layouts
   const lazy: typeof import('react').lazy
   const loginN8nUser: typeof import('../apis/index').loginN8nUser
   const memo: typeof import('react').memo
+  const params: typeof import('../services/post-n8n-workflow.params.mock').params
+  const postN8nApiKey: typeof import('../services/post-n8n-api-key').postN8nApiKey
+  const postN8nLogin: typeof import('../services/post-n8n-login').postN8nLogin
+  const postN8nRegister: typeof import('../services/post-n8n-register').postN8nRegister
+  const postN8nWorkflow: typeof import('../services/post-n8n-workflow').postN8nWorkflow
+  const postN8nWorkflowParamsMock: typeof import('../services/post-n8n-workflow.mock').postN8nWorkflowParamsMock
+  const postN8nWorkflowResultMock: typeof import('../services/post-n8n-workflow.mock').postN8nWorkflowResultMock
   const queryClient: typeof import('../config/client').queryClient
   const registerN8N: typeof import('../apis/index').registerN8N
   const registerN8n: typeof import('../apis/index').registerN8n
@@ -154,6 +166,24 @@ declare global {
   // @ts-ignore
   export type { ThemeSwitchProps } from '../components/theme-switch'
   import('../components/theme-switch')
+  // @ts-ignore
+  export type { InvokeCollectClickupParams, ClickupTask, InvokeCollectClickupResult } from '../services/invoke-collect-clickup'
+  import('../services/invoke-collect-clickup')
+  // @ts-ignore
+  export type { InvokeCollectGitParams, GitCommit, FileDiff, InvokeCollectGitResult } from '../services/invoke-collect-git'
+  import('../services/invoke-collect-git')
+  // @ts-ignore
+  export type { PostN8nApiKeyParams, PostN8nApiKeyResult } from '../services/post-n8n-api-key'
+  import('../services/post-n8n-api-key')
+  // @ts-ignore
+  export type { PostN8nLoginParams } from '../services/post-n8n-login'
+  import('../services/post-n8n-login')
+  // @ts-ignore
+  export type { PostN8nRegisterParams } from '../services/post-n8n-register'
+  import('../services/post-n8n-register')
+  // @ts-ignore
+  export type { N8nNodeParameters, N8nNode, N8nConnectionItem, N8nConnections, N8nWorkflowSettings, N8nHomeProject, PostN8nWorkflowParams, PostN8nWorkflowResult } from '../services/post-n8n-workflow'
+  import('../services/post-n8n-workflow')
   // @ts-ignore
   export type { ReportSearchInput } from '../services/sql-report-query'
   import('../services/sql-report-query')
