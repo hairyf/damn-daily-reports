@@ -1,3 +1,4 @@
+import { Else, If, Then } from '@hairy/react-lib'
 import { useQuery } from '@tanstack/react-query'
 
 function Page() {
@@ -6,10 +7,15 @@ function Page() {
     queryFn: () => sql_queryReportCount(),
     refetchInterval: 5000,
   })
+
   const { data: collectedItemsCount = 0 } = useQuery({
     queryKey: [sql_queryRecordCount.name],
     queryFn: () => sql_queryRecordCount(),
     refetchInterval: 5000,
+  })
+  const { data: detail, refetch } = useQuery({
+    queryKey: [sql_queryReportType.name],
+    queryFn: () => sql_queryReportType({ type: 'daily' }),
   })
 
   return (
@@ -23,8 +29,18 @@ function Page() {
         <TrendCard title="收集的数据项" value={`${collectedItemsCount} 项`} />
       </div>
 
-      {/* 当天报告区域 */}
-      <ReportEditor />
+      <If cond={detail}>
+        <Then>
+          <ReportEditor
+            reportId={detail?.id || ''}
+            showCancel={false}
+            onDeleted={refetch}
+          />
+        </Then>
+        <Else>
+          <ReportGenerator />
+        </Else>
+      </If>
     </div>
   )
 }

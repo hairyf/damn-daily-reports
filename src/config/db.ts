@@ -15,8 +15,8 @@ async function main() {
       .addColumn('type', 'text', col => col.notNull())
       .addColumn('description', 'text', col => col.notNull())
       .addColumn('config', 'text', col => col.notNull())
-      .addColumn('createdAt', 'text', col => col.defaultTo(sql`CURRENT_TIMESTAMP`))
-      .addColumn('updatedAt', 'text', col => col.defaultTo(sql`CURRENT_TIMESTAMP`))
+      .addColumn('createdAt', 'date', col => col.defaultTo(sql`CURRENT_TIMESTAMP`))
+      .addColumn('updatedAt', 'date', col => col.defaultTo(sql`CURRENT_TIMESTAMP`))
       .execute()
   }
 
@@ -26,8 +26,8 @@ async function main() {
       .addColumn('name', 'text', col => col.notNull())
       .addColumn('type', 'text', col => col.notNull())
       .addColumn('content', 'text', col => col.notNull())
-      .addColumn('createdAt', 'text', col => col.defaultTo(sql`CURRENT_TIMESTAMP`))
-      .addColumn('updatedAt', 'text', col => col.defaultTo(sql`CURRENT_TIMESTAMP`))
+      .addColumn('createdAt', 'date', col => col.defaultTo(sql`CURRENT_TIMESTAMP`))
+      .addColumn('updatedAt', 'date', col => col.defaultTo(sql`CURRENT_TIMESTAMP`))
       .execute()
   }
 
@@ -37,8 +37,8 @@ async function main() {
       .addColumn('summary', 'text', col => col.notNull())
       .addColumn('data', 'text', col => col.notNull())
       .addColumn('source', 'text', col => col.notNull())
-      .addColumn('createdAt', 'text', col => col.defaultTo(sql`CURRENT_TIMESTAMP`))
-      .addColumn('updatedAt', 'text', col => col.defaultTo(sql`CURRENT_TIMESTAMP`))
+      .addColumn('createdAt', 'date', col => col.defaultTo(sql`CURRENT_TIMESTAMP`))
+      .addColumn('updatedAt', 'date', col => col.defaultTo(sql`CURRENT_TIMESTAMP`))
       .execute()
   }
 }
