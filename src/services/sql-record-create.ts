@@ -1,6 +1,5 @@
 import type { Selectable } from 'kysely'
 import type { Record } from '../config/db.schema'
-import { db } from '../config/db'
 
 export interface RecordCreateInput {
   summary: string
@@ -22,7 +21,7 @@ export async function sql_createRecord(input: RecordCreateInput): Promise<Select
       createdAt: now,
       updatedAt: now,
     })
-    .execute()
+    .executeTakeFirst()
 
   const result = await db
     .selectFrom('Record')

@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom'
 import App from './App.tsx'
 import { Provider } from './provider.tsx'
 import './styles/main.css'
-// import './config/db.schema.ts'
+import './config/db.ts'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

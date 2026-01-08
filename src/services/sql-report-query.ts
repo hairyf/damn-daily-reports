@@ -1,6 +1,5 @@
 import type { Selectable } from 'kysely'
 import type { Report } from '../config/db.schema'
-import { db } from '../config/db'
 
 export interface ReportSearchInput {
   search?: string

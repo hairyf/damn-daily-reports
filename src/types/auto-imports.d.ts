@@ -79,6 +79,7 @@ declare global {
   const layouts: typeof import('../layouts/index').layouts
   const lazy: typeof import('react').lazy
   const loginN8nUser: typeof import('../apis/index').loginN8nUser
+  const main: typeof import('../config/db').main
   const memo: typeof import('react').memo
   const params: typeof import('../services/post-n8n-workflow.params.mock').params
   const postN8nApiKey: typeof import('../services/post-n8n-api-key').postN8nApiKey
@@ -115,6 +116,7 @@ declare global {
   const sql_searchReports: typeof import('../services/sql-search-reports').sql_searchReports
   const sql_updateRecord: typeof import('../services/sql-record-update').sql_updateRecord
   const sql_updateReport: typeof import('../services/sql-report-update').sql_updateReport
+  const sql_updateSource: typeof import('../services/sql-source-update').sql_updateSource
   const startTransition: typeof import('react').startTransition
   const store: typeof import('../store/index').store
   const subtitle: typeof import('../components/primitives').subtitle
@@ -156,7 +158,7 @@ declare global {
 // for type re-export
 declare global {
   // @ts-ignore
-  export type { Generated, Timestamp, Record, Source, SqliteMaster, DB } from '../config/db.schema'
+  export type { Generated, Timestamp, Record, Report, Source, SqliteMaster, DB } from '../config/db.schema'
   import('../config/db.schema')
   // @ts-ignore
   export type { SiteConfig } from '../config/site'
@@ -216,6 +218,9 @@ declare global {
   export type { SourceQueryInput } from '../services/sql-source-query'
   import('../services/sql-source-query')
   // @ts-ignore
-  export type { Report, DatabaseItem, SourceType, SourceConfig } from '../utils/mock-db'
+  export type { SourceUpdateInput } from '../services/sql-source-update'
+  import('../services/sql-source-update')
+  // @ts-ignore
+  export type { DatabaseItem, SourceType, SourceConfig } from '../utils/mock-db'
   import('../utils/mock-db')
 }

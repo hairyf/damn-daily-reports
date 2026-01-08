@@ -1,6 +1,5 @@
 import type { Selectable } from 'kysely'
 import type { Record } from '../config/db.schema'
-import { db } from '../config/db'
 
 export interface RecordQueryInput {
   search?: string

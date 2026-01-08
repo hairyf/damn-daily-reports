@@ -1,6 +1,4 @@
 import type { Selectable } from 'kysely'
-import type { Source } from '../config/db.schema'
-import { db } from '../config/db'
 
 export interface SourceQueryInput {
   search?: string
