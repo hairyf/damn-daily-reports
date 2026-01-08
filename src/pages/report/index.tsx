@@ -27,7 +27,7 @@ function Page() {
   const [search, setSearch] = useState('')
   const debouncedSearch = useDebounce(search, 300)
   const [type, setType] = useState<string>('')
-  const openDeleteReportModal = useOverlay(DeleteReportModal)
+  const openDialog = useOverlay(Dialog)
   const pagination = useOffsetPagination({
     pageSize: 7,
   })
@@ -48,6 +48,15 @@ function Page() {
       pageSize: pagination.pageSize,
     }),
   })
+
+  async function onDelete(_id: string) {
+    await openDialog({
+      title: '确认删除',
+      message: '确定要删除这条报告吗？此操作无法撤销。',
+      confirmText: '删除',
+      cancelText: '取消',
+    })
+  }
 
   async function handleExportCSV() {
     // TODO
@@ -147,7 +156,7 @@ function Page() {
                       size="sm"
                       variant="light"
                       color="danger"
-                      onPress={openDeleteReportModal}
+                      onPress={() => onDelete(item.id)}
                     >
                       <Icon icon="lucide:trash" className="w-4 h-4" />
                     </Button>

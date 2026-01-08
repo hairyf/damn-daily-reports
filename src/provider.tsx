@@ -1,6 +1,7 @@
 import type { NavigateOptions } from 'react-router-dom'
 
 import { HeroUIProvider } from '@heroui/react'
+import { OverlaysProvider } from '@overlastic/react'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { useHref, useNavigate } from 'react-router-dom'
 import { queryClient } from './config/client'
@@ -16,7 +17,9 @@ export function Provider({ children }: { children: React.ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
       <HeroUIProvider navigate={navigate} useHref={useHref}>
-        {children}
+        <OverlaysProvider>
+          {children}
+        </OverlaysProvider>
       </HeroUIProvider>
     </QueryClientProvider>
   )
