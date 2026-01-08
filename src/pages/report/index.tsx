@@ -39,7 +39,7 @@ function Page() {
     { label: '年', value: 'yearly' },
   ]
 
-  const { data: reports = [], isLoading } = useQuery({
+  const { data: reports = [], isLoading, refetch } = useQuery({
     queryKey: ['reports', debouncedSearch, type, pagination.page, pagination.pageSize],
     queryFn: async () => sql_queryReports({
       search: debouncedSearch,
@@ -49,21 +49,15 @@ function Page() {
     }),
   })
 
-  async function onDelete(_id: string) {
+  async function onDelete(id: string) {
     await openDialog({
       title: '确认删除',
       message: '确定要删除这条报告吗？此操作无法撤销。',
       confirmText: '删除',
       cancelText: '取消',
     })
-  }
-
-  async function handleExportCSV() {
-    // TODO
-    // if (filePath) {
-    //   await writeTextFile(filePath, `\uFEFF${csvContent}`)
-    //   sendNotification({ title: '成功', body: 'CSV 文件已导出' })
-    // }
+    await sql_deleteReport(id)
+    refetch()
   }
 
   function getTypeLabel(type: string) {
@@ -107,14 +101,14 @@ function Page() {
                 )
               })}
             </Select>
-            <Button
+            {/* <Button
               color="primary"
               onPress={handleExportCSV}
               startContent={<Icon icon="lucide:download" className="w-4 h-4" />}
               isDisabled={reports.length === 0}
             >
               导出 CSV
-            </Button>
+            </Button> */}
           </div>
         </CardBody>
       </Card>

@@ -8,6 +8,10 @@ export const db = new Kysely<DB>({
 })
 
 async function main() {
+  await db.schema.dropTable('Source').execute()
+  await db.schema.dropTable('Report').execute()
+  await db.schema.dropTable('Record').execute()
+
   if (!(await sql_isExistsTable('Source'))) {
     await db.schema.createTable('Source')
       .addColumn('id', 'text', col => col.primaryKey())
@@ -109,7 +113,7 @@ async function insertTestData() {
           id: crypto.randomUUID(),
           summary: '完成了用户登录功能开发',
           data: JSON.stringify({ type: 'feature', status: 'completed', priority: 'high' }),
-          source: sourceId,
+          source: 'git',
           createdAt: now,
           updatedAt: now,
         },
@@ -117,7 +121,7 @@ async function insertTestData() {
           id: crypto.randomUUID(),
           summary: '修复了数据导出 bug',
           data: JSON.stringify({ type: 'bugfix', status: 'completed', priority: 'medium' }),
-          source: sourceId,
+          source: 'clickup',
           createdAt: now,
           updatedAt: now,
         },
@@ -125,7 +129,7 @@ async function insertTestData() {
           id: crypto.randomUUID(),
           summary: '优化了页面加载性能',
           data: JSON.stringify({ type: 'optimization', status: 'in-progress', priority: 'low' }),
-          source: sourceId,
+          source: 'slack',
           createdAt: now,
           updatedAt: now,
         },

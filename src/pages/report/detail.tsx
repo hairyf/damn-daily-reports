@@ -10,7 +10,12 @@ function Page() {
   }
 
   return (
-    <ReportEditor reportId={reportId} onCancel={onCancel} />
+    <ReportEditor
+      reportId={reportId}
+      onCancel={onCancel}
+      showCancel={true}
+      onDeleted={() => navigate('/report')}
+    />
   )
 }
 

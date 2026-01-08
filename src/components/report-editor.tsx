@@ -47,7 +47,7 @@ export function ReportEditor({ reportId, ...props }: ReportEditorProps) {
     },
   })
 
-  const { data: report, refetch: refetchReport } = useQuery({
+  const { data: report } = useQuery({
     queryKey: ['report', reportId],
     queryFn: () => sql_queryReportById(reportId),
     enabled: !!reportId,
@@ -72,7 +72,10 @@ export function ReportEditor({ reportId, ...props }: ReportEditorProps) {
         id: reportId,
         content: text,
       })
-      refetchReport()
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['reports'] })
+      queryClient.invalidateQueries({ queryKey: ['report', reportId] })
     },
   })
 
@@ -81,6 +84,12 @@ export function ReportEditor({ reportId, ...props }: ReportEditorProps) {
       if (!reportId) {
         throw new Error('报告ID不存在')
       }
+      await openDialog({
+        title: '确认删除',
+        message: '确定要删除这条报告吗？此操作无法撤销。',
+        confirmText: '删除',
+        cancelText: '取消',
+      })
       return await sql_deleteReport(reportId)
     },
     onSuccess: () => {
@@ -164,7 +173,6 @@ export function ReportEditor({ reportId, ...props }: ReportEditorProps) {
                 variant="light"
                 onPress={() => deleteMutation.mutate()}
                 isDisabled={deleteMutation.isPending}
-                isLoading={deleteMutation.isPending}
                 startContent={<Icon icon="lucide:trash" className="w-4 h-4" />}
               >
                 删除
@@ -183,7 +191,6 @@ export function ReportEditor({ reportId, ...props }: ReportEditorProps) {
                 color="primary"
                 onPress={() => saveMutation.mutate()}
                 isDisabled={!isUnsaved || saveMutation.isPending}
-                isLoading={saveMutation.isPending}
                 startContent={<Icon icon="lucide:save" className="w-4 h-4" />}
               >
                 保存
