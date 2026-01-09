@@ -47,7 +47,7 @@ function Page() {
   const [selectedTab, setSelectedTab] = useState<'local' | 'third-party'>('local')
 
   function handleAdd() {
-    navigate('/source/create')
+    navigate('/source/detail?id=')
   }
 
   const currentSources = selectedTab === 'local' ? mockLocalDataSources : mockThirdPartyDataSources

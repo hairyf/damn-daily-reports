@@ -42,6 +42,8 @@ declare global {
   const SettingOtherConfig: typeof import('../ui/setting-other-config').SettingOtherConfig
   const SettingUserInterfaceCard: typeof import('../ui/setting-user-interface-card').SettingUserInterfaceCard
   const SlackIcon: typeof import('../components/icons').SlackIcon
+  const SourceFormClickup: typeof import('../components/souce-form-clickup').SourceFormClickup
+  const SourceFormGit: typeof import('../components/souce-form-git').SourceFormGit
   const SourceGitForm: typeof import('../components/souce-git-form').SourceGitForm
   const SourceIcon: typeof import('../components/source-icon').SourceIcon
   const SourceItem: typeof import('../components/source-item').SourceItem
@@ -185,6 +187,9 @@ declare global {
   // @ts-ignore
   export type { DataSource, SourceItemProps } from '../components/source-item'
   import('../components/source-item')
+  // @ts-ignore
+  export type { SourceSelectProps } from '../components/source-select'
+  import('../components/source-select')
   // @ts-ignore
   export type { ThemeSwitchProps } from '../components/theme-switch'
   import('../components/theme-switch')
