@@ -10,7 +10,7 @@ export function SourceFormClickup() {
       <FormField
         rules={{ required: 'Please enter your API Token' }}
         control={control}
-        name="config.apiToken"
+        name="config.token"
         render={({ field }) => (
           <FormItem>
             <FormLabel>API Token</FormLabel>
@@ -28,7 +28,7 @@ export function SourceFormClickup() {
       <FormField
         rules={{ required: 'Please enter your Team ID' }}
         control={control}
-        name="config.teamId"
+        name="config.team"
         render={({ field }) => (
           <FormItem>
             <FormLabel>Team ID</FormLabel>
@@ -46,7 +46,7 @@ export function SourceFormClickup() {
       <FormField
         rules={{ required: 'Please enter your User ID' }}
         control={control}
-        name="config.userId"
+        name="config.user"
         render={({ field }) => (
           <FormItem>
             <FormLabel>User ID</FormLabel>

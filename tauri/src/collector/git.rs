@@ -25,7 +25,7 @@ pub struct GitCommit {
 
 #[derive(Debug, Serialize)]
 pub struct CollectGitResult {
-    pub commits: Vec<GitCommit>,
+    pub data: Vec<GitCommit>,
     pub count: usize,
 }
 
@@ -111,5 +111,5 @@ pub async fn collect_daily_git(
         });
     }
 
-    Ok(CollectGitResult { count: commits.len(), commits })
+    Ok(CollectGitResult { count: commits.len(), data: commits })
 }

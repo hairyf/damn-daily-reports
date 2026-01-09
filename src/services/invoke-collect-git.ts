@@ -25,10 +25,10 @@ export interface FileDiff {
 }
 
 export interface InvokeCollectGitResult {
-  commits: GitCommit[]
+  data: GitCommit[]
   count: number
 }
 
 export function invokeCollectGit(params: InvokeCollectGitParams) {
-  return invoke<InvokeCollectGitResult>('collect/git', params as unknown as Record<string, unknown>)
+  return invoke<InvokeCollectGitResult>('collect_daily_git', params as unknown as Record<string, unknown>)
 }

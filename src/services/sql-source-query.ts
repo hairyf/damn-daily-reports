@@ -3,12 +3,13 @@ import type { Selectable } from 'kysely'
 export interface SourceQueryInput {
   search?: string
   type?: string
+  enabled?: boolean
   page?: number
   pageSize?: number
 }
 
 export async function sql_querySources(input: SourceQueryInput = {}): Promise<Selectable<Source>[]> {
-  const { search, type, page = 1, pageSize = 10 } = input
+  const { search, type, enabled, page = 1, pageSize = 10 } = input
 
   let query = db.selectFrom('Source').selectAll()
 
@@ -26,6 +27,11 @@ export async function sql_querySources(input: SourceQueryInput = {}): Promise<Se
   // 如果type不为空，添加类型过滤
   if (type) {
     query = query.where('type', '=', type)
+  }
+
+  // 如果enabled不为空，添加enabled过滤
+  if (enabled !== undefined) {
+    query = query.where('enabled', '=', enabled)
   }
 
   // 排序

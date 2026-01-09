@@ -13,8 +13,8 @@ export const siteConfig = {
       href: '/report',
     },
     {
-      label: 'Database',
-      href: '/database',
+      label: 'Records',
+      href: '/record',
     },
     {
       label: 'Soruce',

@@ -39,16 +39,21 @@ export async function sql_queryReportType(input: ReportTypeSearchInput): Promise
       break
   }
 
-  // 查询匹配的报告
-  const result = await db
-    .selectFrom('Report')
-    .selectAll()
-    .where('type', '=', type)
-    .where('createdAt', '>=', startTime.toDate())
-    .where('createdAt', '<=', endTime.toDate())
-    .orderBy('createdAt', 'desc')
-    .limit(1)
-    .execute()
+  try {
+    // 查询匹配的报告
+    const result = await db
+      .selectFrom('Report')
+      .selectAll()
+      .where('type', '=', type)
+      .where('createdAt', '>=', startTime.toDate() as any)
+      .where('createdAt', '<=', endTime.toDate() as any)
+      .orderBy('createdAt', 'desc')
+      .limit(1)
+      .execute()
 
-  return result[0] || null
+    return result[0] || null
+  }
+  catch {
+    return null
+  }
 }

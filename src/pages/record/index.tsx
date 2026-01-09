@@ -1,5 +1,6 @@
 import { useDebounce, useOffsetPagination, useWatch } from '@hairy/react-lib'
 import {
+  Button,
   Card,
   CardBody,
   Input,
@@ -48,6 +49,11 @@ function Page() {
     },
   })
 
+  async function onDelete(id: string) {
+    await sql_deleteRecord(id)
+    queryClient.invalidateQueries({ queryKey: ['records'] })
+  }
+
   useWatch([search, sourceFilter], () => pagination.pageChange(1))
 
   return (
@@ -78,6 +84,7 @@ function Page() {
           <TableColumn minWidth={120}>来源</TableColumn>
           <TableColumn minWidth={120}>日期</TableColumn>
           <TableColumn minWidth={300}>简要内容</TableColumn>
+          <TableColumn>操作</TableColumn>
         </TableHeader>
         <TableBody
           items={records}
@@ -95,7 +102,20 @@ function Page() {
                 </TableCell>
                 <TableCell>{dayjs(record.createdAt).format('YYYY-MM-DD')}</TableCell>
                 <TableCell>
-                  {record.summary}
+                  <div className="w-full relative h-5">
+                    <div className="truncate absolute inset-0">{record.summary}</div>
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <Button
+                    isIconOnly
+                    size="sm"
+                    variant="light"
+                    color="danger"
+                    onPress={() => onDelete(record.id)}
+                  >
+                    <Icon icon="lucide:trash" className="w-4 h-4" />
+                  </Button>
                 </TableCell>
               </TableRow>
             )

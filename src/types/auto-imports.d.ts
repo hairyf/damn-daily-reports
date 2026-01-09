@@ -90,6 +90,7 @@ declare global {
   const iconMap: typeof import('../components/source-icon').iconMap
   const invokeCollectClickup: typeof import('../services/invoke-collect-clickup').invokeCollectClickup
   const invokeCollectGit: typeof import('../services/invoke-collect-git').invokeCollectGit
+  const invokeGenerateDaily: typeof import('../services/invoke-generate-daily').invokeGenerateDaily
   const isExistsIndex: typeof import('../utils/db').isExistsIndex
   const isExistsTable: typeof import('../utils/db').isExistsTable
   const layouts: typeof import('../layouts/index').layouts

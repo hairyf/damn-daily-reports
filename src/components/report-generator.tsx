@@ -2,6 +2,9 @@ import { Button, Card, CardBody } from '@heroui/react'
 import { Icon } from '@iconify/react'
 
 export function ReportGenerator() {
+  function onGenerate() {
+    invokeGenerateDaily()
+  }
   return (
     <Card className="flex-1">
       <CardBody>
@@ -17,7 +20,7 @@ export function ReportGenerator() {
           </div>
           <Button
             color="primary"
-            onPress={() => {}}
+            onPress={onGenerate}
             radius="full"
             className="w-30"
             startContent={<Icon icon="lucide:sparkles" className="w-4 h-4" />}

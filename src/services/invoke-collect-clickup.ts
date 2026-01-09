@@ -15,10 +15,10 @@ export interface ClickupTask {
 }
 
 export interface InvokeCollectClickupResult {
-  tasks: ClickupTask[]
+  data: ClickupTask[]
   count: number
 }
 
 export function invokeCollectClickup(params: InvokeCollectClickupParams) {
-  return invoke<InvokeCollectClickupResult>('collect/clickup', params as unknown as Record<string, unknown>)
+  return invoke<InvokeCollectClickupResult>('collect_daily_clickup', params as unknown as Record<string, unknown>)
 }

@@ -6,7 +6,7 @@ import { siteConfig } from '@/config/site'
 const iconMap: Record<string, string> = {
   '/': 'lucide:layout-dashboard',
   '/report': 'lucide:bar-chart-3',
-  '/database': 'lucide:database',
+  '/record': 'lucide:database',
   '/source': 'lucide:file-text',
   '/n8n': 'lucide:workflow',
   '/settings': 'lucide:settings',

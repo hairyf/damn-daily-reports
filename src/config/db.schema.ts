@@ -27,7 +27,7 @@ export interface Source {
   type: string
   description: string
   enabled: boolean
-  config: { [key: string]: any }
+  config: any
   createdAt: Generated<string>
   updatedAt: string
 }

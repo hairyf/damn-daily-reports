@@ -21,7 +21,7 @@ struct ClickupResponse { tasks: Vec<ClickupTask> }
 
 #[derive(Debug, Serialize)]
 pub struct CollectClickupResult {
-    pub tasks: Vec<ClickupTask>,
+    pub data: Vec<ClickupTask>,
     pub count: usize,
 }
 
@@ -66,6 +66,6 @@ pub async fn collect_daily_clickup(
 
     Ok(CollectClickupResult {
         count: data.tasks.len(),
-        tasks: data.tasks,
+        data: data.tasks,
     })
 }

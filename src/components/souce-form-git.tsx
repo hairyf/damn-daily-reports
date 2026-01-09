@@ -13,7 +13,7 @@ export function SourceFormGit() {
         multiple: false,
       })
       if (selected && typeof selected === 'string') {
-        setValue('config.dir', selected)
+        setValue('config.repository', selected)
       }
     }
     catch (error) {
@@ -25,7 +25,7 @@ export function SourceFormGit() {
     <div className="flex flex-col gap-4">
       <FormField
         control={control}
-        name="config.dir"
+        name="config.repository"
         rules={{ required: 'Please select Git directory' }}
         render={({ field }) => (
           <FormItem>
@@ -75,7 +75,7 @@ export function SourceFormGit() {
 
       <FormField
         control={control}
-        name="config.username"
+        name="config.author"
         rules={{ required: 'Please enter your Git username' }}
         render={({ field }) => (
           <FormItem>
