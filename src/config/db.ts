@@ -3,14 +3,19 @@ import Database from '@tauri-apps/plugin-sql'
 import { Kysely, sql } from 'kysely'
 import { TauriSqliteDialect } from 'kysely-dialect-tauri'
 
+const _db = Database.load('sqlite:main.db')
 export const db = new Kysely<DB>({
-  dialect: new TauriSqliteDialect({ database: () => Database.load('sqlite:main.db') }),
+  dialect: new TauriSqliteDialect({ database: () => _db }),
 })
 
 async function main() {
   // await db.schema.dropTable('Source').execute()
   // await db.schema.dropTable('Report').execute()
   // await db.schema.dropTable('Record').execute()
+
+  const d = await _db
+
+  console.log('awpdnawdnawop', await d.select('PRAGMA table_info("Source")'))
 
   if (!(await sql_isExistsTable('Source'))) {
     await db.schema.createTable('Source')
