@@ -33,6 +33,7 @@ declare global {
   const Label: typeof import('../components/label').Label
   const Link: typeof import('react-router-dom').Link
   const Logo: typeof import('../components/icons').Logo
+  const ManualLoginN8n: typeof import('../components/step-manual-login').ManualLoginN8n
   const MoonFilledIcon: typeof import('../components/icons').MoonFilledIcon
   const N8N_API_URL: typeof import('../config/constants').N8N_API_URL
   const N8N_LOGIN_DATA: typeof import('../config/constants').N8N_LOGIN_DATA
@@ -58,6 +59,9 @@ declare global {
   const SourceItem: typeof import('../components/source-item').SourceItem
   const SourceItemCard: typeof import('../components/source-item').SourceItemCard
   const SourceSelect: typeof import('../components/source-select').SourceSelect
+  const StatusStep: typeof import('../components/status-step').StatusStep
+  const StepDeepSeek: typeof import('../components/step-deepseek').StepDeepSeek
+  const StepStatus: typeof import('../components/step-status').StepStatus
   const SunFilledIcon: typeof import('../components/icons').SunFilledIcon
   const Suspense: typeof import('react').Suspense
   const ThemeSwitch: typeof import('../components/theme-switch').ThemeSwitch

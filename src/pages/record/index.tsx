@@ -31,7 +31,7 @@ function Page() {
   const [search, setSearch] = useState('')
   const [sourceFilter, setSourceFilter] = useState<string>('')
   const pagination = useOffsetPagination({
-    pageSize: 7,
+    pageSize: 20,
   })
   // 防抖搜索词和筛选条件
   const debouncedSearch = useDebounce(search, 300)

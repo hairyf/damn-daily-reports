@@ -19,7 +19,6 @@ export async function sql_queryRecords(input: RecordQueryInput = {}): Promise<Se
     query = query.where(eb =>
       eb.or([
         eb('summary', 'like', searchPattern),
-        eb('data', 'like', searchPattern),
       ]),
     )
   }

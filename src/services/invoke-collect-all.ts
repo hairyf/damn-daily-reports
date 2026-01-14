@@ -29,5 +29,16 @@ export async function invokeCollectAll(): Promise<void> {
   })
 
   const records = await Promise.all(promises).then(results => results.flat())
-  await db.insertInto('Record').values(records).execute()
+
+  // 查询数据库中已存在的记录 ID
+  const existingIds = await db
+    .selectFrom('Record')
+    .select('id')
+    .where('id', 'in', records.map(r => r.id))
+    .execute()
+    .then(results => new Set(results.map(r => r.id)))
+
+  // 过滤掉已存在的记录，只插入新记录
+  const uniqueRecords = records.filter(record => !existingIds.has(record.id))
+  await db.insertInto('Record').values(uniqueRecords).execute()
 }
