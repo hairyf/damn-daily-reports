@@ -1,0 +1,67 @@
+import { Button, Card, CardBody, Input } from '@heroui/react'
+import {
+  ArrowRight,
+  BrainCircuit,
+} from 'lucide-react'
+
+export function StepDeepSeekApiKey() {
+  const [apiKey, setApiKey] = useState('')
+  function onDeepSeekSubmit(_apiKey: string) {
+
+  }
+
+  function onSkip() {
+
+  }
+
+  return (
+    <Card className="w-full max-w-lg">
+      <CardBody className="p-8">
+        <div className="flex items-center space-x-4 mb-6">
+          <div className="bg-indigo-50 dark:bg-indigo-500/20 p-3 rounded-xl">
+            <BrainCircuit className="text-indigo-600" size={24} />
+          </div>
+          <div>
+            <h2 className="text-2xl font-bold">配置 DeepSeek API</h2>
+            <p className="text-gray-500 dark:text-white/60 text-sm">连接大模型以增强自动化能力</p>
+          </div>
+        </div>
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <label className="text-gray-400 dark:text-white/40 text-xs uppercase tracking-widest font-semibold px-1">
+              DeepSeek API Key
+            </label>
+            <Input
+              type="text"
+              value={apiKey}
+              onChange={e => setApiKey(e.target.value)}
+              placeholder="sk-..."
+            />
+          </div>
+          <div className="p-4 border rounded-xl bg-yellow-50 dark:bg-yellow-500/10 border-yellow-500/20">
+            <p className="text-xs flex items-start text-yellow-700 dark:text-yellow-200/80">
+              <span className="mr-2">💡</span>
+              Tip：点击 Skip 跳过，需要在自动化页面单独设置模型配置。
+            </p>
+          </div>
+          <div className="flex space-x-3">
+            <Button
+              onPress={onSkip}
+            >
+              Skip
+            </Button>
+            <Button
+              onPress={() => onDeepSeekSubmit(apiKey)}
+              color="primary"
+              className="flex-1"
+              disabled={!apiKey}
+            >
+              <span>确认配置</span>
+              <ArrowRight size={18} />
+            </Button>
+          </div>
+        </div>
+      </CardBody>
+    </Card>
+  )
+}

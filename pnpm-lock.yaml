@@ -9,10 +9,10 @@ importers:
   .:
     dependencies:
       '@hairy/react-lib':
-        specifier: ^1.45.0
+        specifier: ^1.46.0
         version: 1.46.0(@types/react@19.2.7)(react-dom@19.2.3(react@19.2.3))(react-i18next@14.1.3(i18next@25.7.3(typescript@5.8.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react@19.2.3)
       '@hairy/utils':
-        specifier: ^1.45.0
+        specifier: ^1.46.0
         version: 1.46.0
       '@heroui/react':
         specifier: ^2.8.5
@@ -135,8 +135,8 @@ importers:
         specifier: ^3.1.1
         version: 3.2.2(tailwind-merge@3.4.0)(tailwindcss@4.1.11)
       valtio-define:
-        specifier: ^0.2.0
-        version: 0.2.0(@types/react@19.2.7)(react@19.2.3)
+        specifier: ^0.3.0
+        version: 0.3.0(@types/react@19.2.7)(react@19.2.3)
       zod:
         specifier: ^4.3.5
         version: 4.3.5
@@ -4631,8 +4631,8 @@ packages:
       typescript:
         optional: true
 
-  valtio-define@0.2.0:
-    resolution: {integrity: sha512-Pm+tnmn0wcS+sBEJkWekaI7mgWnoJlLPj7a9MbNDPH5znF1N44aLn/Ca1CdPb4msfoj7Raqlu2rjKEtqE292AQ==}
+  valtio-define@0.3.0:
+    resolution: {integrity: sha512-imINw+yWGwGMpTbufhY1Lmm1u2IujNHE20xX49tgl+LCoLGzshhGMY6LHfumU6Xp/pL/ARHl525YhDF6D7VdOQ==}
     peerDependencies:
       react: ^18.2.0
 
@@ -10290,7 +10290,7 @@ snapshots:
     optionalDependencies:
       typescript: 5.8.3
 
-  valtio-define@0.2.0(@types/react@19.2.7)(react@19.2.3):
+  valtio-define@0.3.0(@types/react@19.2.7)(react@19.2.3):
     dependencies:
       '@hairy/utils': 1.46.0
       react: 19.2.3

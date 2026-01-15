@@ -2,7 +2,6 @@ mod n8n;
 mod collector;
 mod database;
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-use tauri::Manager;
 use database::migration::db_migrate;
 
 #[tauri::command]
@@ -12,11 +11,8 @@ fn greet(name: &str) -> String {
 
     pub fn run() {
     tauri::Builder::default()
-        .manage(n8n::N8nState(std::sync::Mutex::new(n8n::N8nStatus::Initial)))
         .setup(|app| {
-            let state = app.state::<n8n::N8nState>();
-            n8n::start_n8n(&state);
-
+            n8n::start_n8n();
             db_migrate(app)?;
             Ok(())
         })

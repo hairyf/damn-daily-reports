@@ -30,6 +30,7 @@ declare global {
   const GmailIcon: typeof import('../components/icons').GmailIcon
   const HeartFilledIcon: typeof import('../components/icons').HeartFilledIcon
   const Initialize: typeof import('../components/initialize').Initialize
+  const Initiator: typeof import('../layouts/components/initiator').Initiator
   const Label: typeof import('../components/label').Label
   const Link: typeof import('react-router-dom').Link
   const Logo: typeof import('../components/icons').Logo
@@ -61,6 +62,9 @@ declare global {
   const SourceSelect: typeof import('../components/source-select').SourceSelect
   const StatusStep: typeof import('../components/status-step').StatusStep
   const StepDeepSeek: typeof import('../components/step-deepseek').StepDeepSeek
+  const StepDeepSeekApiKey: typeof import('../components/step-deepseek-api-key').StepDeepSeekApiKey
+  const StepManualLoginN8n: typeof import('../components/step-manual-login').StepManualLoginN8n
+  const StepN8nManualLogin: typeof import('../components/step-n8n-manual-login').StepN8nManualLogin
   const StepStatus: typeof import('../components/step-status').StepStatus
   const SunFilledIcon: typeof import('../components/icons').SunFilledIcon
   const Suspense: typeof import('react').Suspense
@@ -114,6 +118,7 @@ declare global {
   const registerN8N: typeof import('../apis/index').registerN8N
   const registerN8n: typeof import('../apis/index').registerN8n
   const registerN8nUser: typeof import('../apis/index').registerN8nUser
+  const retry: typeof import('../utils/utility').retry
   const saveSettings: typeof import('../utils/settings-store').saveSettings
   const searchDatabaseItems: typeof import('../utils/mock-db').searchDatabaseItems
   const searchReports: typeof import('../utils/mock-db').searchReports
@@ -173,6 +178,7 @@ declare global {
   const useOutlet: typeof import('react-router-dom').useOutlet
   const useOutletContext: typeof import('react-router-dom').useOutletContext
   const useParams: typeof import('react-router-dom').useParams
+  const useQueryN8nStatus: typeof import('../services/use-query-n8n-status').useQueryN8nStatus
   const useReducer: typeof import('react').useReducer
   const useRef: typeof import('react').useRef
   const useResolvedPath: typeof import('react-router-dom').useResolvedPath
@@ -259,4 +265,7 @@ declare global {
   // @ts-ignore
   export type { SourceUpdateInput } from '../services/sql-source-update'
   import('../services/sql-source-update')
+  // @ts-ignore
+  export type { RetryOptions } from '../utils/utility'
+  import('../utils/utility')
 }

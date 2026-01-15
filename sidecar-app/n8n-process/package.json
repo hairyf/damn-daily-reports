@@ -7,6 +7,9 @@
   "scripts": {
     "start": "electron .",
     "build": "set FORCE_COLOR=0 && electron-builder",
+    "build:win": "set FORCE_COLOR=0 && electron-builder --win",
+    "build:linux": "set FORCE_COLOR=0 && electron-builder --linux",
+    "build:mac": "set FORCE_COLOR=0 && electron-builder --mac",
     "install": "patch-package"
   },
   "build": {

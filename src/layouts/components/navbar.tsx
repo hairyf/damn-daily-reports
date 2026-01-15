@@ -32,7 +32,7 @@ export function Navbar() {
 
   return (
     <div>
-      <HeroUINavbar maxWidth="full" position="sticky" className="relative">
+      <HeroUINavbar maxWidth="full" position="sticky" className="relative bg-transparent backdrop-filter-none">
         <div className="absolute inset-0 w-full" data-tauri-drag-region />
         <NavbarContent justify="end">
           <NavbarItem className="hidden sm:flex gap-2">

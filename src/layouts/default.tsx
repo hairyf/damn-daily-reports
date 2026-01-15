@@ -1,6 +1,10 @@
+import { If } from '@hairy/react-lib'
 import clsx from 'clsx'
+import { useStore } from 'valtio-define'
 import { Navbar } from '@/layouts/components/navbar'
 import { Sidebar } from '@/layouts/components/sidebar'
+import { Initiator } from './components/initiator'
+import { Main } from './components/main'
 
 export interface DefaultLayoutProps {
   title?: string
@@ -12,22 +16,19 @@ export interface DefaultLayoutProps {
 }
 
 export function DefaultLayout(props: DefaultLayoutProps) {
+  const { initialized } = useStore(store.user)
+
   return (
-    <div className={clsx('relative flex min-h-screen', props.classNames?.root)}>
-      <Sidebar />
-      <div className="flex flex-col flex-1">
-        <Navbar />
-        <main className="flex-grow relative">
-          <div className={clsx('px-6 pb-6 pt-3 absolute top-0 left-0 w-full h-full flex flex-col overflow-y-auto', props.classNames?.main)}>
-            {props.title && (
-              <div className="mb-4">
-                <span className={title({ size: 'sm' })}>{props.title}</span>
-              </div>
-            )}
+    <If cond={initialized} else={<Initiator />}>
+      <div className={clsx('relative flex min-h-screen', props.classNames?.root)}>
+        <Sidebar />
+        <div className="flex flex-col flex-1">
+          <Navbar />
+          <Main className={props.classNames?.main}>
             {props.children}
-          </div>
-        </main>
+          </Main>
+        </div>
       </div>
-    </div>
+    </If>
   )
 }
