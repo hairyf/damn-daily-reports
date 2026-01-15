@@ -44,9 +44,10 @@ export const user = defineStore({
       )
     },
     status() {
-      if (this.n8nprocessStatus === 'unzipping')
+      const status = this.n8nprocessStatus.toLowerCase()
+      if (status === 'unzipping')
         return StartupState.UNZIPPING
-      if (this.n8nprocessStatus === 'starting')
+      if (status === 'starting')
         return StartupState.STARTING_SERVICE
       if (!this.n8nLoggedIn) {
         if (this.n8nDefaultAccountLoginEnabled)
@@ -65,6 +66,5 @@ export const user = defineStore({
 
 loop(async (next) => {
   user.$state.n8nprocessStatus = await invoke('get_n8n_status')
-  if (user.$state.n8nprocessStatus !== 'running')
-    await next(1000)
+  await next(1000)
 })

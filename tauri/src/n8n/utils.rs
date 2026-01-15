@@ -1,6 +1,7 @@
 use std::path::{Path, PathBuf};
 use std::process::{Child, Command};
-use std::net::TcpListener;
+use std::net::{TcpStream, SocketAddr};
+use std::time::Duration;
 
 /// 抽象跨平台的 npx 调用逻辑
 pub fn spawn_npx_command(working_dir: &Path, arg: &str) -> std::io::Result<Child> {
@@ -37,11 +38,17 @@ pub fn get_n8n_process_dir() -> Option<PathBuf> {
     None
 }
 
-/// 检查指定端口是否被占用
+/// 检查指定端口是否被占用（通过尝试连接来判断）
 pub fn is_port_in_use(port: u16) -> bool {
-    match TcpListener::bind(format!("127.0.0.1:{}", port)) {
-        Ok(_) => false, // 端口未被占用，可以绑定
-        Err(_) => true, // 端口已被占用，无法绑定
+    // 尝试连接到端口，设置较短的超时时间（100ms）以快速检测
+    // 如果能连接成功，说明端口有服务在监听
+    let addr: SocketAddr = format!("127.0.0.1:{}", port).parse().unwrap_or_else(|_| {
+        // 如果解析失败，返回一个默认地址（虽然不太可能发生）
+        "127.0.0.1:0".parse().unwrap()
+    });
+    
+    match TcpStream::connect_timeout(&addr, Duration::from_millis(100)) {
+        Ok(_) => true,  // 连接成功，端口被占用（有服务在监听）
+        Err(_) => false, // 连接失败或超时，端口未被占用
     }
 }
-
