@@ -21,6 +21,7 @@ export default defineConfig(async () => ({
         'react-router-dom',
       ],
       dirs: [
+        'src/database',
         'src/config',
         'src/components',
         'src/layouts/index.ts',

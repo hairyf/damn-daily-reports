@@ -1,5 +1,5 @@
-import { db } from '../config/db'
+import { db } from '../database'
 
 export async function sql_deleteReport(id: string) {
-  return db.deleteFrom('Report').where('id', '=', id).execute()
+  return db.deleteFrom('report').where('id', '=', id).execute()
 }

@@ -1,7 +1,7 @@
 import type { Selectable } from 'kysely'
-import type { Report } from '../config/db.schema'
+import type { Report } from '../database/types'
 import dayjs from 'dayjs'
-import { db } from '../config/db'
+import { db } from '../database'
 
 export interface ReportTypeSearchInput {
   /**
@@ -42,7 +42,7 @@ export async function sql_queryReportType(input: ReportTypeSearchInput): Promise
   try {
     // 查询匹配的报告
     const result = await db
-      .selectFrom('Report')
+      .selectFrom('report')
       .selectAll()
       .where('type', '=', type)
       .where('createdAt', '>=', startTime.toDate() as any)

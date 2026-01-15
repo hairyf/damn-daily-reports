@@ -1,5 +1,5 @@
 import type { Selectable } from 'kysely'
-import type { Report } from '../config/db.schema'
+import type { Report } from '../database/types'
 
 export interface ReportCreateInput {
   name: string
@@ -12,7 +12,7 @@ export async function sql_createReport(input: ReportCreateInput): Promise<Select
   const now = new Date().toISOString()
 
   await db
-    .insertInto('Report')
+    .insertInto('report')
     .values({
       id,
       name: input.name,
@@ -24,7 +24,7 @@ export async function sql_createReport(input: ReportCreateInput): Promise<Select
     .execute()
 
   const result = await db
-    .selectFrom('Report')
+    .selectFrom('report')
     .selectAll()
     .where('id', '=', id)
     .execute()

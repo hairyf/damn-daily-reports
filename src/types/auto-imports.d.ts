@@ -78,15 +78,15 @@ declare global {
   const createRef: typeof import('react').createRef
   const createReport: typeof import('../utils/mock-db').createReport
   const createSource: typeof import('../utils/mock-db').createSource
-  const db: typeof import('../config/db').db
-  const db_p: typeof import('../config/db').db_p
-  const db_promise: typeof import('../config/db').db_promise
+  const db: typeof import('../database/index').db
+  const db_p: typeof import('../database').db_p
+  const db_promise: typeof import('../database').db_promise
   const deleteReport: typeof import('../utils/mock-db').deleteReport
   const forwardRef: typeof import('react').forwardRef
   const getAllDatabaseItems: typeof import('../utils/mock-db').getAllDatabaseItems
   const getAllReports: typeof import('../utils/mock-db').getAllReports
   const getDatabaseItemById: typeof import('../utils/mock-db').getDatabaseItemById
-  const getKysely: typeof import('../config/db').getKysely
+  const getKysely: typeof import('../database').getKysely
   const getReportById: typeof import('../utils/mock-db').getReportById
   const getSetting: typeof import('../utils/settings-store').getSetting
   const getSettings: typeof import('../utils/settings-store').getSettings
@@ -101,7 +101,7 @@ declare global {
   const layouts: typeof import('../layouts/index').layouts
   const lazy: typeof import('react').lazy
   const loginN8nUser: typeof import('../apis/index').loginN8nUser
-  const main: typeof import('../config/db').main
+  const main: typeof import('../database').main
   const memo: typeof import('react').memo
   const params: typeof import('../services/post-n8n-workflow.params.mock').params
   const postN8nApiKey: typeof import('../services/post-n8n-api-key').postN8nApiKey
@@ -185,8 +185,8 @@ declare global {
 // for type re-export
 declare global {
   // @ts-ignore
-  export type { Generated, Timestamp, Record, Report, Source, sqlite_master, DB } from '../config/db.schema'
-  import('../config/db.schema')
+  export type { Generated, Timestamp, Record, Report, Source, sqlite_master, DB } from '../database/types'
+  import('../database/types')
   // @ts-ignore
   export type { SiteConfig } from '../config/site'
   import('../config/site')

@@ -1,10 +1,10 @@
 import type { Selectable } from 'kysely'
-import type { Record } from '../config/db.schema'
+import type { Record } from '../database/types'
 
 export interface RecordCreateInput {
   summary: string
   source: string
-  data: string
+  data: { [key: string]: any }
 }
 
 export async function sql_createRecord(input: RecordCreateInput): Promise<Selectable<Record>> {
@@ -12,7 +12,7 @@ export async function sql_createRecord(input: RecordCreateInput): Promise<Select
   const now = new Date().toISOString()
 
   await db
-    .insertInto('Record')
+    .insertInto('record')
     .values({
       id,
       summary: input.summary,
@@ -24,7 +24,7 @@ export async function sql_createRecord(input: RecordCreateInput): Promise<Select
     .executeTakeFirst()
 
   const result = await db
-    .selectFrom('Record')
+    .selectFrom('record')
     .selectAll()
     .where('id', '=', id)
     .execute()

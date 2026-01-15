@@ -1,5 +1,5 @@
 import type { Selectable } from 'kysely'
-import type { Report } from '../config/db.schema'
+import type { Report } from '../database/types'
 
 export interface ReportSearchInput {
   search?: string
@@ -11,7 +11,7 @@ export interface ReportSearchInput {
 export async function sql_queryReports(input: ReportSearchInput): Promise<Selectable<Report>[]> {
   const { search, type, page = 1, pageSize = 10 } = input
 
-  let query = db.selectFrom('Report').selectAll()
+  let query = db.selectFrom('report').selectAll()
 
   // 如果search不为空，添加搜索条件
   if (search) {

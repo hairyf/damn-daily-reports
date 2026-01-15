@@ -2,8 +2,9 @@ datasource db {
   provider = "sqlite"
 }
 
-generator client {
-  provider = "prisma-client-js"
+generator kysely {
+  provider  = "prisma-kysely"
+  output    = "../../src/database"
 }
 
 model Source {
@@ -15,6 +16,8 @@ model Source {
   config      Json
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  @@map("source")
 }
 
 model Report {
@@ -24,6 +27,8 @@ model Report {
   content     String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  @@map("report")
 }
 
 model Record {
@@ -33,12 +38,6 @@ model Record {
   source      String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-}
 
-model sqlite_master {
-  type  String
-  name  String
-  tbl_name String @id
-  rootpage Int
-  sql String?
+  @@map("record")
 }

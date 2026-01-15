@@ -1,22 +1,18 @@
 import type { Selectable } from 'kysely'
-import type { Record } from '../config/db.schema'
+import type { UpdateObjectExpression } from 'node_modules/kysely/dist/esm/parser/update-set-parser'
+import type { Record } from '../database/types'
 
 export interface RecordUpdateInput {
   id: string
   summary?: string
   source?: string
-  data?: string
+  data?: { [key: string]: any }
 }
 
 export async function sql_updateRecord(input: RecordUpdateInput): Promise<Selectable<Record>> {
   const now = new Date().toISOString()
 
-  const updateValues: {
-    summary?: string
-    source?: string
-    data?: string
-    updatedAt?: string
-  } = {}
+  const updateValues: UpdateObjectExpression<DB, 'record', 'record'> = {}
   if (input.summary !== undefined) {
     updateValues.summary = input.summary
   }
@@ -30,7 +26,7 @@ export async function sql_updateRecord(input: RecordUpdateInput): Promise<Select
   if (Object.keys(updateValues).length === 0) {
     // 如果没有要更新的字段，直接返回现有记录
     const result = await db
-      .selectFrom('Record')
+      .selectFrom('record')
       .selectAll()
       .where('id', '=', input.id)
       .execute()
@@ -41,13 +37,13 @@ export async function sql_updateRecord(input: RecordUpdateInput): Promise<Select
   updateValues.updatedAt = now
 
   await db
-    .updateTable('Record')
+    .updateTable('record')
     .set(updateValues)
     .where('id', '=', input.id)
     .execute()
 
   const result = await db
-    .selectFrom('Record')
+    .selectFrom('record')
     .selectAll()
     .where('id', '=', input.id)
     .execute()

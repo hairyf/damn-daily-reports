@@ -1,7 +1,9 @@
 mod n8n;
 mod collector;
+mod database;
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 use tauri::Manager;
+use database::migration::db_migrate;
 
 #[tauri::command]
 fn greet(name: &str) -> String {
@@ -14,6 +16,8 @@ fn greet(name: &str) -> String {
         .setup(|app| {
             let state = app.state::<n8n::N8nState>();
             n8n::start_n8n(&state);
+
+            db_migrate(app)?;
             Ok(())
         })
         // HTTP plugin

@@ -13,7 +13,7 @@ export async function sql_createSource(input: SourceCreateInput): Promise<Select
   const now = new Date().toISOString()
 
   await db
-    .insertInto('Source')
+    .insertInto('source')
     .values({
       id,
       name: input.name,
@@ -27,7 +27,7 @@ export async function sql_createSource(input: SourceCreateInput): Promise<Select
     .execute()
 
   const result = await db
-    .selectFrom('Source')
+    .selectFrom('source')
     .selectAll()
     .where('id', '=', id)
     .execute()

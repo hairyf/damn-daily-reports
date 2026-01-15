@@ -11,7 +11,7 @@ export interface SourceQueryInput {
 export async function sql_querySources(input: SourceQueryInput = {}): Promise<Selectable<Source>[]> {
   const { search, type, enabled, page = 1, pageSize = 10 } = input
 
-  let query = db.selectFrom('Source').selectAll()
+  let query = db.selectFrom('source').selectAll()
 
   // 如果search不为空，添加搜索条件
   if (search) {

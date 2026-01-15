@@ -2,7 +2,7 @@ import type { Selectable } from 'kysely'
 
 export async function sql_querySourceById(id: string): Promise<Selectable<Source> | null> {
   const result = await db
-    .selectFrom('Source')
+    .selectFrom('source')
     .selectAll()
     .where('id', '=', id)
     .execute()

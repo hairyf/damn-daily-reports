@@ -1,5 +1,5 @@
 import type { Selectable } from 'kysely'
-import type { Report } from '../config/db.schema'
+import type { Report } from '../database/types'
 
 export interface ReportUpdateInput {
   id: string
@@ -30,7 +30,7 @@ export async function sql_updateReport(input: ReportUpdateInput): Promise<Select
   if (Object.keys(updateValues).length === 0) {
     // 如果没有要更新的字段，直接返回现有记录
     const result = await db
-      .selectFrom('Report')
+      .selectFrom('report')
       .selectAll()
       .where('id', '=', input.id)
       .execute()
@@ -41,13 +41,13 @@ export async function sql_updateReport(input: ReportUpdateInput): Promise<Select
   updateValues.updatedAt = now
 
   await db
-    .updateTable('Report')
+    .updateTable('report')
     .set(updateValues)
     .where('id', '=', input.id)
     .execute()
 
   const result = await db
-    .selectFrom('Report')
+    .selectFrom('report')
     .selectAll()
     .where('id', '=', input.id)
     .execute()

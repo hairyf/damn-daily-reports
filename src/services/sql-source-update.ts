@@ -38,7 +38,7 @@ export async function sql_updateSource(input: SourceUpdateInput): Promise<Select
   updateValues.updatedAt = now
 
   await db
-    .updateTable('Source')
+    .updateTable('source')
     .set(updateValues)
     .where('id', '=', input.id)
     .execute()

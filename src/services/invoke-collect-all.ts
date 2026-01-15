@@ -1,5 +1,5 @@
 import type { Selectable } from 'kysely'
-import type { Source } from '@/config/db.schema'
+import type { Source } from '@/database/types'
 
 export async function invokeCollectAll(): Promise<void> {
   const sources = await sql_querySources({ enabled: true, page: 1, pageSize: 100 }) as Selectable<Source>[]

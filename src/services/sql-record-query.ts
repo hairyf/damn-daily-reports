@@ -1,5 +1,5 @@
 import type { Selectable } from 'kysely'
-import type { Record } from '../config/db.schema'
+import type { Record } from '../database/types'
 
 export interface RecordQueryInput {
   search?: string
@@ -11,7 +11,7 @@ export interface RecordQueryInput {
 export async function sql_queryRecords(input: RecordQueryInput = {}): Promise<Selectable<Record>[]> {
   const { search, source, page = 1, pageSize = 10 } = input
 
-  let query = db.selectFrom('Record').selectAll()
+  let query = db.selectFrom('record').selectAll()
 
   // 如果search不为空，添加搜索条件
   if (search) {

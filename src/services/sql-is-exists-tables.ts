@@ -1,4 +1,4 @@
-import { db } from '../config/db'
+import { db } from '../database'
 
 export async function sql_isExistsTable(tableName: string) {
   const result = await db
