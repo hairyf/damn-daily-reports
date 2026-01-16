@@ -9,7 +9,8 @@ export interface Record {
   id: string
   summary: string
   data: any
-  source: string
+  sourceId: string
+  reportId: string | null
   createdAt: Generated<string>
   updatedAt: string
 }
@@ -31,18 +32,8 @@ export interface Source {
   createdAt: Generated<string>
   updatedAt: string
 }
-
-export interface sqlite_master {
-  type: string
-  name: string
-  tbl_name: string
-  rootpage: number
-  sql: string | null
-}
-
 export interface DB {
   record: Record
   report: Report
   source: Source
-  sqlite_master: sqlite_master
 }

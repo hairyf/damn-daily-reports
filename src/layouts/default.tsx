@@ -19,7 +19,7 @@ export function DefaultLayout(props: DefaultLayoutProps) {
   const { initialized } = useStore(store.user)
 
   return (
-    <If cond={initialized} else={<Initiator />}>
+    <If cond={true} else={<Initiator />}>
       <div className={clsx('relative flex min-h-screen', props.classNames?.root)}>
         <Sidebar />
         <div className="flex flex-col flex-1">

@@ -4,7 +4,8 @@ use std::sync::{Mutex, OnceLock};
 pub enum N8nStatus {
     Initial,
     // only for production environment
-    Unzipping,
+    // Downloading,
+    // Unzipping,
     Starting,
     Running,
 }

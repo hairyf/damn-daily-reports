@@ -1,19 +1,28 @@
 mod n8n;
 mod collector;
 mod database;
-// Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-use database::migration::db_migrate;
+mod axum;
 
-#[tauri::command]
-fn greet(name: &str) -> String {
-    format!("Hello, {}! You've been greeted from Rust!", name)
-}
+// Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
+use database::migration;
+use database::connection;
 
     pub fn run() {
     tauri::Builder::default()
         .setup(|app| {
             n8n::start_n8n();
-            db_migrate(app)?;
+            migration::migrate(app)?;
+            
+            match connection::connect(app) {
+                Ok(pool) => {
+                    println!("✓ Database Connection Successful");
+                    axum::start(pool);
+                }
+                Err(e) => {
+                    eprintln!("✗ Database Connection Failed: {}", e);
+                    eprintln!("  Axum Service will not start");
+                }
+            }
             Ok(())
         })
         // HTTP plugin
@@ -32,7 +41,6 @@ fn greet(name: &str) -> String {
         .plugin(tauri_plugin_fs::init())
         // Custom protocol plugin
         .invoke_handler(tauri::generate_handler![
-            greet,
             n8n::get_n8n_status,
             collector::clickup::collect_daily_clickup,
             collector::git::collect_daily_git

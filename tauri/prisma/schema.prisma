@@ -17,6 +17,8 @@ model Source {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
+  records Record[]
+
   @@map("source")
 }
 
@@ -28,6 +30,7 @@ model Report {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
+
   @@map("report")
 }
 
@@ -35,9 +38,12 @@ model Record {
   id          String @id
   summary     String
   data        Json
-  source      String
+  
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
+  source      Source @relation(fields: [sourceId], references: [id])
+  sourceId    String
+  
   @@map("record")
 }

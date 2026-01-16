@@ -25,7 +25,8 @@ CREATE TABLE "record" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "summary" TEXT NOT NULL,
     "data" JSONB NOT NULL,
-    "source" TEXT NOT NULL,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" DATETIME NOT NULL
+    "updatedAt" DATETIME NOT NULL,
+    "sourceId" TEXT NOT NULL,
+    CONSTRAINT "record_sourceId_fkey" FOREIGN KEY ("sourceId") REFERENCES "source" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );

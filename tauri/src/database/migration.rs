@@ -2,7 +2,7 @@ use tauri::{path::BaseDirectory, Manager};
 use tauri_plugin_sql::{Migration, MigrationKind};
 use std::fs;
 
-pub fn db_migrate(app: &tauri::App) -> Result<(), tauri::Error> {
+pub fn migrate(app: &tauri::App) -> Result<(), tauri::Error> {
     let migrations = db_get_migrations(app);
     app.handle().plugin(
       tauri_plugin_sql::Builder::default()

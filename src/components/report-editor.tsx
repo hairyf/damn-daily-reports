@@ -15,6 +15,7 @@ import StarterKit from '@tiptap/starter-kit'
 import dayjs from 'dayjs'
 import { useMemo, useState } from 'react'
 import { useKey } from 'react-use'
+import { Markdown } from 'tiptap-markdown'
 import { Dialog } from '@/components/dialog'
 import { sql_deleteReport } from '@/services/sql-report-delete'
 import { sql_queryReportById } from '@/services/sql-report-query_id'
@@ -35,18 +36,18 @@ export function ReportEditor({ reportId, ...props }: ReportEditorProps) {
   const editor = useEditor({
     extensions: [
       StarterKit,
+      Markdown,
       Placeholder.configure({
         placeholder: '输入报告内容...',
       }),
     ],
-    onUpdate: ({ editor }) => setText(editor.getText()),
+    onUpdate: ({ editor }) => setText(editor.storage.markdown.getMarkdown()),
     editorProps: {
       attributes: {
         class: 'prose prose-sm max-w-none focus:outline-none min-h-[400px] px-4 py-3 text-sm',
       },
     },
   })
-
   const { data: report } = useQuery({
     queryKey: ['report', reportId],
     queryFn: () => sql_queryReportById(reportId),

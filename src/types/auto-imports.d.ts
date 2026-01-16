@@ -75,6 +75,7 @@ declare global {
   const buttonVariants: typeof import('../components/button').buttonVariants
   const cache: typeof import('react').cache
   const cacheSignal: typeof import('react').cacheSignal
+  const clearRecordAndReportData: typeof import('../database/index').clearRecordAndReportData
   const cn: typeof import('../utils/utility').cn
   const collectDailyClickup: typeof import('../services/collect-clickup').collectDailyClickup
   const collectDailyGit: typeof import('../services/collect-git').collectDailyGit
@@ -137,6 +138,7 @@ declare global {
   const sql_isExistsTable: typeof import('../services/sql-is-exists-tables').sql_isExistsTable
   const sql_queryRecordById: typeof import('../services/sql-record-query_id').sql_queryRecordById
   const sql_queryRecordCount: typeof import('../services/sql-record-query_count').sql_queryRecordCount
+  const sql_queryRecordType: typeof import('../services/sql-record-query_type_source_group').sql_queryRecordType
   const sql_queryRecords: typeof import('../services/sql-record-query').sql_queryRecords
   const sql_queryReportById: typeof import('../services/sql-report-query_id').sql_queryReportById
   const sql_queryReportCount: typeof import('../services/sql-report-query_count').sql_queryReportCount
@@ -193,7 +195,7 @@ declare global {
 // for type re-export
 declare global {
   // @ts-ignore
-  export type { Generated, Timestamp, Record, Report, Source, sqlite_master, DB } from '../database/types'
+  export type { Generated, Timestamp, Record, Report, Source, DB } from '../database/types'
   import('../database/types')
   // @ts-ignore
   export type { SiteConfig } from '../config/site'

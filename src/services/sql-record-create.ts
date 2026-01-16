@@ -3,7 +3,7 @@ import type { Record } from '../database/types'
 
 export interface RecordCreateInput {
   summary: string
-  source: string
+  sourceId: string
   data: { [key: string]: any }
 }
 
@@ -16,7 +16,7 @@ export async function sql_createRecord(input: RecordCreateInput): Promise<Select
     .values({
       id,
       summary: input.summary,
-      source: input.source,
+      sourceId: input.sourceId,
       data: input.data,
       createdAt: now,
       updatedAt: now,
