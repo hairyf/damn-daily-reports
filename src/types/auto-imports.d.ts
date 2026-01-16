@@ -87,6 +87,7 @@ declare global {
   const db_p: typeof import('../database').db_p
   const db_promise: typeof import('../database').db_promise
   const deleteReport: typeof import('../utils/mock-db').deleteReport
+  const fixTableStructure: typeof import('../database/index').fixTableStructure
   const forwardRef: typeof import('react').forwardRef
   const getAllDatabaseItems: typeof import('../utils/mock-db').getAllDatabaseItems
   const getAllReports: typeof import('../utils/mock-db').getAllReports
@@ -190,6 +191,7 @@ declare global {
   const useState: typeof import('react').useState
   const useSyncExternalStore: typeof import('react').useSyncExternalStore
   const useTransition: typeof import('react').useTransition
+  const verifyMigration: typeof import('../database/index').verifyMigration
   const workflow: typeof import('../config/workflow').workflow
 }
 // for type re-export

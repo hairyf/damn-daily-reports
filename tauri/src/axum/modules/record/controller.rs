@@ -16,7 +16,6 @@ pub async fn get(
 ) -> (StatusCode, Json<Vec<Record>>) {
   match get_records(pool, &params.r#type).await {
     Ok(records) => {
-      println!("records: {:?}", records);
       (StatusCode::OK, Json(records))
     }
     Err(e) => {

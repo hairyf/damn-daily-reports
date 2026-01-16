@@ -42,5 +42,7 @@ export async function invokeCollectAll(): Promise<void> {
   const uniqueRecords = records.filter(record => !existingIds.has(record.id))
 
   console.log(uniqueRecords)
-  await db.insertInto('record').values(uniqueRecords).execute()
+  if (uniqueRecords.length > 0) {
+    await db.insertInto('record').values(uniqueRecords).execute()
+  }
 }

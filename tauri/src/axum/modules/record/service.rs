@@ -57,13 +57,20 @@ pub async fn get_records(
   let start_iso = start_time.to_rfc3339();
   let end_iso = end_time.to_rfc3339();
 
-  // 查询记录
+  // 查询记录，JOIN source 表获取 source 名称
   let rows = sqlx::query(
     r#"
-    SELECT id, summary, data, source, createdAt, updatedAt
+    SELECT 
+      record.id, 
+      record.summary, 
+      record.data, 
+      source.name as source,
+      record.createdAt, 
+      record.updatedAt
     FROM record
-    WHERE createdAt >= ? AND createdAt <= ?
-    ORDER BY createdAt DESC
+    INNER JOIN source ON record.sourceId = source.id
+    WHERE record.createdAt >= ? AND record.createdAt <= ?
+    ORDER BY record.createdAt DESC
     "#,
   )
   .bind(&start_iso)

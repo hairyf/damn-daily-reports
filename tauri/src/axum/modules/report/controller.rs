@@ -19,7 +19,7 @@ pub async fn post(
       (StatusCode::OK, Json(report))
     }
     Err(e) => {
-      eprintln!("插入失败: {}", e);
+      eprintln!("Insert report failed: {}", e);
       (
         StatusCode::INTERNAL_SERVER_ERROR,
         Json(Report {
