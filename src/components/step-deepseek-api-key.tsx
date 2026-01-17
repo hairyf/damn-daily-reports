@@ -6,12 +6,22 @@ import {
 
 export function StepDeepSeekApiKey() {
   const [apiKey, setApiKey] = useState('')
-  function onDeepSeekSubmit(apiKey: string) {
+  async function onDeepSeekSubmit(apiKey: string) {
     if (!apiKey.startsWith('sk-')) {
       addToast({ description: 'API Key 格式不正确' })
       return
     }
-    store.user.$patch({ deepseekKey: apiKey })
+    const { data } = await postN8nCredentials({
+      isGlobal: false,
+      isResolvable: false,
+      data: { apiKey },
+      name: 'DeepSeek account',
+      type: 'deepSeekApi',
+    })
+    store.user.$patch({
+      credentialId: data.id,
+      credentialName: data.name,
+    })
   }
 
   function onSkip() {

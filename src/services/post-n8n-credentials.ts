@@ -1,3 +1,5 @@
+import { fetch } from '@tauri-apps/plugin-http'
+
 export interface PostN8nCredentialsBody {
   isGlobal: boolean
   isResolvable: boolean

@@ -13,16 +13,17 @@ export interface RetryOptions {
 }
 
 export function retry<T>(fn: () => Promise<T>, options: RetryOptions = {}) {
-  const { retries = 3, delay = 1000 } = options
+  const { retries = 5, delay = 1000 } = options
   let retriesLeft = retries
   return loop(async (next) => {
     try {
       await fn()
     }
-    catch {
+    catch (error) {
       retriesLeft--
       if (retriesLeft > 0)
         next(delay)
+      throw error
     }
   })
 }

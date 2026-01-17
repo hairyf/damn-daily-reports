@@ -93,10 +93,12 @@ declare global {
   const getAllReports: typeof import('../utils/mock-db').getAllReports
   const getDatabaseItemById: typeof import('../utils/mock-db').getDatabaseItemById
   const getKysely: typeof import('../database').getKysely
+  const getN8nCredentials: typeof import('../services/get-n8n-credentials').getN8nCredentials
   const getReportById: typeof import('../utils/mock-db').getReportById
   const getSetting: typeof import('../utils/settings-store').getSetting
   const getSettings: typeof import('../utils/settings-store').getSettings
   const getSources: typeof import('../utils/mock-db').getSources
+  const get_report_workflow_params: typeof import('../config/workflow').get_report_workflow_params
   const iconMap: typeof import('../components/source-icon').iconMap
   const invokeCollectAll: typeof import('../services/invoke-collect-all').invokeCollectAll
   const invokeCollectClickup: typeof import('../services/invoke-collect-clickup').invokeCollectClickup
@@ -113,6 +115,8 @@ declare global {
   const postN8nApiKey: typeof import('../services/post-n8n-api-key').postN8nApiKey
   const postN8nCredentials: typeof import('../services/post-n8n-credentials').postN8nCredentials
   const postN8nLogin: typeof import('../services/post-n8n-login').postN8nLogin
+  const postN8nMeSurvey: typeof import('../services/post-n8n-my-survey').postN8nMeSurvey
+  const postN8nMySurvey: typeof import('../services/post-n8n-my-survey').postN8nMySurvey
   const postN8nRegister: typeof import('../services/post-n8n-register').postN8nRegister
   const postN8nWorkflow: typeof import('../services/post-n8n-workflow').postN8nWorkflow
   const postN8nWorkflowParamsMock: typeof import('../services/post-n8n-workflow.mock').postN8nWorkflowParamsMock
@@ -203,6 +207,9 @@ declare global {
   export type { SiteConfig } from '../config/site'
   import('../config/site')
   // @ts-ignore
+  export type { ReportWorkflowOptions } from '../config/workflow'
+  import('../config/workflow')
+  // @ts-ignore
   export type { DialogProps } from '../components/dialog'
   import('../components/dialog')
   // @ts-ignore
@@ -239,10 +246,13 @@ declare global {
   export type { PostN8nLoginBody, PostN8nLoginResult } from '../services/post-n8n-login'
   import('../services/post-n8n-login')
   // @ts-ignore
+  export type { PostN8nMeSurveyParams } from '../services/post-n8n-my-survey'
+  import('../services/post-n8n-my-survey')
+  // @ts-ignore
   export type { PostN8nRegisterBody, PostN8nRegisterResult } from '../services/post-n8n-register'
   import('../services/post-n8n-register')
   // @ts-ignore
-  export type { N8nNodeParameters, N8nNode, N8nConnectionItem, N8nConnections, N8nWorkflowSettings, N8nHomeProject, PostN8nWorkflowParams, PostN8nWorkflowResult } from '../services/post-n8n-workflow'
+  export type { PostN8nWorkflowResult } from '../services/post-n8n-workflow'
   import('../services/post-n8n-workflow')
   // @ts-ignore
   export type { RecordCreateInput } from '../services/sql-record-create'

@@ -1,33 +1,46 @@
-export function workflow() {
+export interface ReportWorkflowOptions {
+  credentials: {
+    deepSeekApi?: {
+      id: string
+      name: string
+    }
+  }
+}
+
+export function get_report_workflow_params(options: ReportWorkflowOptions) {
   return {
-    name: 'My workflow',
+    name: 'Automation Report Workflow',
     nodes: [
       {
         parameters: {
           path: 'b7d92e73-c8ef-40cd-8062-adf86697801f',
-          options: {},
+          options: {
+            responseData: '{ message: "" }',
+          },
         },
         type: 'n8n-nodes-base.webhook',
         typeVersion: 2.1,
         position: [
-          0,
+          -304,
           0,
         ],
-        id: 'dc77598f-c44e-4f48-b20a-0778531ea002',
+        id: '41eb82b9-b4c4-4825-afe9-1e464ef37ec9',
         name: 'Webhook',
         webhookId: 'b7d92e73-c8ef-40cd-8062-adf86697801f',
       },
       {
         parameters: {
+          promptType: 'define',
+          text: '=请根据以下数据生成日报：\n\n{{ JSON.stringify($json.data) }}\n\n格式要求：\n\n- xxx\n- xxx\n- xxx',
           options: {},
         },
         type: '@n8n/n8n-nodes-langchain.agent',
         typeVersion: 3.1,
         position: [
-          208,
+          416,
           0,
         ],
-        id: '436d4c11-5042-4d34-8ce6-17f9f5796a9b',
+        id: '4f3cb78f-5a5b-4ceb-9fc1-bd7c770f4748',
         name: 'AI Agent',
       },
       {
@@ -37,39 +50,32 @@ export function workflow() {
         type: '@n8n/n8n-nodes-langchain.lmChatDeepSeek',
         typeVersion: 1,
         position: [
-          96,
-          208,
+          416,
+          176,
         ],
-        id: 'f0f6ce30-1513-4f30-a722-31101d6acfd0',
+        id: 'd8c6b2fd-fdc1-4557-b16f-aa3112fe2ce2',
         name: 'DeepSeek Chat Model',
-        credentials: {
-          deepSeekApi: {
-            id: 'O24CfXkQAHGbdMVC',
-            name: 'DeepSeek account',
-          },
-        },
-      },
-      {
-        parameters: {},
-        type: '@n8n/n8n-nodes-langchain.memoryBufferWindow',
-        typeVersion: 1.3,
-        position: [
-          224,
-          208,
-        ],
-        id: '953e8d44-3b17-4e13-80b4-140fa1e8cfee',
-        name: 'Simple Memory',
+        credentials: options.credentials,
       },
       {
         parameters: {
           method: 'POST',
           url: 'http://localhost:6789/report',
+          sendHeaders: true,
+          headerParameters: {
+            parameters: [
+              {
+                name: 'Content-Type',
+                value: 'application/json',
+              },
+            ],
+          },
           sendBody: true,
           bodyParameters: {
             parameters: [
               {
-                name: 'text',
-                value: '=',
+                name: 'content',
+                value: '={{ $json.output }}',
               },
             ],
           },
@@ -78,20 +84,151 @@ export function workflow() {
         type: 'n8n-nodes-base.httpRequest',
         typeVersion: 4.3,
         position: [
-          560,
+          704,
           0,
         ],
-        id: '11bb8ae8-bec8-4b41-834d-bdd08e870712',
+        id: '7cfc9ea1-4866-4fcc-8e11-a7cb2dd49ac4',
         name: 'Save Report',
       },
+      {
+        parameters: {
+          assignments: {
+            assignments: [
+              {
+                id: 'de1f12f7-7ab9-432f-a423-83593eaa304a',
+                name: 'summary',
+                value: '={{ $json.summary }}',
+                type: 'string',
+              },
+              {
+                id: '0eacc199-869a-4146-9b42-267474137525',
+                name: 'source',
+                value: '={{ $json.source }}',
+                type: 'string',
+              },
+              {
+                id: 'b2b3be97-ecf2-441e-8801-ca44608e1f49',
+                name: 'status',
+                value: '={{ $json.data?.status?.status || \'none\' }}',
+                type: 'string',
+              },
+              {
+                id: 'ce5f36b0-a555-4eed-8be7-c1fb3bbe05e8',
+                name: 'category',
+                value: '={{ $json.data?.list?.name || \'none\' }}',
+                type: 'string',
+              },
+              {
+                id: '24f1e3bc-4aec-4556-ac5b-58fed09761c0',
+                name: 'updatedAt',
+                value: '={{\n  $json?.updatedAt || Date($json?.data?.date_updated)\n}}',
+                type: 'string',
+              },
+              {
+                id: '7e9a2399-563c-4950-b537-7e8164ff5478',
+                name: 'files',
+                value: '={{ $json.data?.files?.map(file => file.path) || null }}',
+                type: 'array',
+              },
+            ],
+          },
+          options: {},
+        },
+        type: 'n8n-nodes-base.set',
+        typeVersion: 3.4,
+        position: [
+          96,
+          0,
+        ],
+        id: '975b1f6d-9f90-48ea-9f37-d13531690672',
+        name: 'Edit Fields',
+      },
+      {
+        parameters: {
+          options: {},
+        },
+        type: '@n8n/n8n-nodes-langchain.chatTrigger',
+        typeVersion: 1.4,
+        position: [
+          -304,
+          160,
+        ],
+        id: '82f8e4da-76c4-4409-a2c8-fa02e103726c',
+        name: 'When chat message received',
+        webhookId: 'edd1332c-e33e-4e68-a0d9-dc6bd244519e',
+      },
+      {
+        parameters: {},
+        type: 'n8n-nodes-base.manualTrigger',
+        typeVersion: 1,
+        position: [
+          -304,
+          -160,
+        ],
+        id: 'b42de8e2-40a0-40a8-a9f3-3e5dce817ef5',
+        name: 'When clicking ‘Execute workflow’',
+      },
+      {
+        parameters: {
+          aggregate: 'aggregateAllItemData',
+          options: {},
+        },
+        type: 'n8n-nodes-base.aggregate',
+        typeVersion: 1,
+        position: [
+          256,
+          0,
+        ],
+        id: '9d4dc1b5-3989-446e-ae91-b3088555228b',
+        name: 'Aggregate',
+      },
+      {
+        parameters: {
+          content: '### Default Automation Report Workflow\nThis workflow is used to generate a report of the daily automation.',
+          height: 80,
+          width: 528,
+          color: 7,
+        },
+        type: 'n8n-nodes-base.stickyNote',
+        position: [
+          -16,
+          -240,
+        ],
+        typeVersion: 1,
+        id: 'ebd9a725-176c-4d65-b74e-497b940505bf',
+        name: 'Sticky Note',
+      },
+      {
+        parameters: {
+          url: 'http://localhost:6789/record',
+          sendQuery: true,
+          queryParameters: {
+            parameters: [
+              {
+                name: 'type',
+                value: 'weekly',
+              },
+              {},
+            ],
+          },
+          options: {},
+        },
+        type: 'n8n-nodes-base.httpRequest',
+        typeVersion: 4.3,
+        position: [
+          -64,
+          0,
+        ],
+        id: 'e93fc30f-06a5-47a6-b003-9c9b1a32c61e',
+        name: 'Get Records',
+      },
     ],
-    pinData: {},
     connections: {
       'Webhook': {
         main: [
           [
             {
-              node: 'AI Agent',
+              node: 'Get Records',
               type: 'main',
               index: 0,
             },
@@ -109,17 +246,6 @@ export function workflow() {
           ],
         ],
       },
-      'Simple Memory': {
-        ai_memory: [
-          [
-            {
-              node: 'AI Agent',
-              type: 'ai_memory',
-              index: 0,
-            },
-          ],
-        ],
-      },
       'AI Agent': {
         main: [
           [
@@ -131,16 +257,72 @@ export function workflow() {
           ],
         ],
       },
+      'Edit Fields': {
+        main: [
+          [
+            {
+              node: 'Aggregate',
+              type: 'main',
+              index: 0,
+            },
+          ],
+        ],
+      },
+      'When chat message received': {
+        main: [
+          [
+            {
+              node: 'Get Records',
+              type: 'main',
+              index: 0,
+            },
+          ],
+        ],
+      },
+      'When clicking ‘Execute workflow’': {
+        main: [
+          [
+            {
+              node: 'Get Records',
+              type: 'main',
+              index: 0,
+            },
+          ],
+        ],
+      },
+      'Aggregate': {
+        main: [
+          [
+            {
+              node: 'AI Agent',
+              type: 'main',
+              index: 0,
+            },
+          ],
+        ],
+      },
+      'Get Records': {
+        main: [
+          [
+            {
+              node: 'Edit Fields',
+              type: 'main',
+              index: 0,
+            },
+          ],
+        ],
+      },
     },
-    active: false,
+
+    pinData: {},
+    active: true,
     settings: {
       executionOrder: 'v1',
       availableInMCP: false,
     },
-    tags: [],
-    versionId: '',
     meta: {
       templateCredsSetupCompleted: true,
     },
+    tags: [],
   }
 }

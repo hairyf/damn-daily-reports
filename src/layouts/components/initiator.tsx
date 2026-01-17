@@ -13,14 +13,18 @@ export interface RetryOptions {
 }
 
 export function Initiator() {
-  const { status, n8nEmail, n8nPassword } = useStore(store.user)
-
+  const { status, n8nEmail, n8nPassword, credentialId, credentialName } = useStore(store.user)
   async function registerN8nAccount() {
-    return postN8nRegister({
+    const result = await postN8nRegister({
       ...N8N_REGISTER_DATA,
       email: n8nEmail || N8N_REGISTER_DATA.email,
       password: n8nPassword || N8N_REGISTER_DATA.password,
     })
+    if (typeof result.code === 'number')
+      throw new TypeError(result.message)
+    if (!result)
+      throw new TypeError('Failed to register n8n account')
+    return result.data
   }
 
   async function loginN8nAccount() {
@@ -28,34 +32,52 @@ export function Initiator() {
       emailOrLdapLoginId: n8nEmail || N8N_REGISTER_DATA.email,
       password: n8nPassword || N8N_REGISTER_DATA.password,
     }
-    return postN8nLogin(login_data)
+    const result = await postN8nLogin(login_data)
+    if (typeof result.code === 'number')
+      throw new TypeError(result.message)
+    return result.data
+  }
+  async function initializeN8nAccount() {
+    try {
+      const n8nUser = await registerN8nAccount()
+      await loginN8nAccount()
+      await postN8nMeSurvey({
+        version: 'v4',
+        personalization_survey_submitted_at: new Date().toISOString(),
+        personalization_survey_n8n_version: 'v4',
+      })
+      store.user.$patch({ n8nLoggedIn: true, n8nUser })
+    }
+    catch {
+      const n8nUser = await loginN8nAccount()
+      store.user.$patch({ n8nLoggedIn: true, n8nUser })
+    }
   }
 
-  async function initializeN8nAccount() {
-    const register_data = await registerN8nAccount()
-    if (typeof register_data.code !== 'number') {
-      store.user.$patch({ n8nLoggedIn: true, n8nUser: register_data.data })
-      return
-    }
-
-    const login_data = await loginN8nAccount()
-    if (typeof login_data.code === 'number') {
-      store.user.$patch({ n8nDefaultAccountLoginEnabled: false })
-      throw new Error(login_data.message)
-    }
-
-    store.user.$patch({ n8nLoggedIn: true, n8nUser: login_data.data })
+  async function initializeN8nWorkflow() {
+    const data = await postN8nWorkflow(get_report_workflow_params({
+      credentials: {
+        deepSeekApi: credentialId
+          ? {
+              id: credentialId!,
+              name: credentialName!,
+            }
+          : undefined,
+      },
+    }))
+    store.user.$patch({ workflowId: data?.id })
   }
 
   useWhenever(
     status === StartupState.INITIALIZING_ACCOUNT,
-    () => retry(initializeN8nAccount),
+    // 登录重试多一些，避免启动 n8n 端口还未完全启动成功
+    () => retry(initializeN8nAccount, { retries: 10, delay: 1000 }),
     { immediate: true },
   )
+
   useWhenever(
     status === StartupState.TEMPLATE_INIT,
-    () => retry(async () => {
-    }),
+    () => retry(initializeN8nWorkflow),
     { immediate: true },
   )
 

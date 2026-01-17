@@ -34,32 +34,33 @@ export interface N8nUser {
 
 export const user = defineStore({
   state: () => ({
-    n8nDefaultTemplateEnabled: false,
     n8nprocessStatus: 'initial' as 'initial' | 'unzipping' | 'starting' | 'running',
     n8nDefaultAccountLoginEnabled: true,
     n8nLoggedIn: false,
 
+    n8nUser: null as N8nUser | null,
+
     // manual login
     n8nEmail: '',
     n8nPassword: '',
-    n8nUser: null as N8nUser | null,
 
-    deepseekKey: '',
+    credentialId: '' as string | null,
+    credentialName: '' as string | null,
     deepseekSkip: false,
 
-    credentialsId: '' as string | null,
+    workflowId: '' as string | null,
   }),
   getters: {
     initialized() {
       return (
-        this.n8nprocessStatus === 'running'
-        && this.n8nLoggedIn
-        && (this.deepseekKey.length > 0 || this.deepseekSkip)
-        && this.n8nDefaultTemplateEnabled
+        !!(this.n8nprocessStatus === 'running'
+          && this.n8nLoggedIn
+          && (this.credentialId || this.deepseekSkip)
+          && this.workflowId)
       )
     },
     status() {
-      const status = this.n8nprocessStatus.toLowerCase()
+      const status = this.n8nprocessStatus
       if (status === 'unzipping')
         return StartupState.UNZIPPING
       if (status === 'starting')
@@ -70,16 +71,20 @@ export const user = defineStore({
         else
           return StartupState.MANUAL_LOGIN
       }
-      if (!this.deepseekKey && !this.deepseekSkip)
+      if (!this.credentialId && !this.deepseekSkip)
         return StartupState.DEEPSEEK_CONFIG
-      if (!this.n8nDefaultTemplateEnabled)
+      if (!this.workflowId)
         return StartupState.TEMPLATE_INIT
       return StartupState.COMPLETED
     },
   },
+  // persist: {
+  //   key: 'user',
+  //   paths: ['credentialId', 'credentialName', 'workflowId', 'deepseekSkip', 'n8nEmail', 'n8nPassword'],
+  // },
 })
 
 loop(async (next) => {
-  user.$state.n8nprocessStatus = await invoke('get_n8n_status')
+  user.$state.n8nprocessStatus = await invoke('get_n8n_status').then((r: any) => r.toLowerCase())
   await next(1000)
 })
