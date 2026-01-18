@@ -12,8 +12,7 @@ export const setting = defineStore(
       autoSave: true,
       notifications: true,
       autoCheckUpdate: true,
-      collectTime: '05:45', // 数据收集时间，格式 HH:mm
-      generateTime: '05:50', // 报告生成时间，格式 HH:mm
+      generateTime: '05:45',
     }),
   },
 )

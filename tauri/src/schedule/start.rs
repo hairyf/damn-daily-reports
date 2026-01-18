@@ -27,20 +27,13 @@ impl SchedulerState {
 // --- 辅助函数 ---
 
 // 修改为接收 AppHandle，这样在 start 和 command 中都能复用
-fn get_times_from_setting(app_handle: &AppHandle) -> (String, String) {
+fn get_times_from_setting(app_handle: &AppHandle) -> String {
     // 注意：这里假设你已经正确配置了 store 插件
     // 在 Tauri v2 中 store api 有所变化，这里按通用逻辑处理
     let store = app_handle
         .store(".store.dat")
         .expect("Failed to load store");
     let setting = store.get("setting");
-
-    let collect_time = setting
-        .as_ref()
-        .and_then(|s| s.get("collectTime"))
-        .and_then(|v| v.as_str())
-        .map(|s| s.to_string())
-        .unwrap_or_else(|| "05:45".to_string());
 
     let generate_time = setting
         .as_ref()
@@ -49,12 +42,12 @@ fn get_times_from_setting(app_handle: &AppHandle) -> (String, String) {
         .map(|s| s.to_string())
         .unwrap_or_else(|| "05:50".to_string());
 
-    (collect_time, generate_time)
+        generate_time
 }
 
 // 核心逻辑：启动调度器线程
 fn spawn_scheduler_thread(app_handle: AppHandle) -> Arc<AtomicBool> {
-    let (collect_time, generate_time) = get_times_from_setting(&app_handle);
+    let generate_time = get_times_from_setting(&app_handle);
     let running_flag = Arc::new(AtomicBool::new(true));
     let thread_flag = running_flag.clone();
 
@@ -62,17 +55,12 @@ fn spawn_scheduler_thread(app_handle: AppHandle) -> Arc<AtomicBool> {
         let mut scheduler = Scheduler::new();
 
         println!(
-            "Schedule Thread Start: Collect at {}, Generate at {}",
-            collect_time, generate_time
+            "Schedule Thread Start: Generate at {}",
+            generate_time
         );
 
-        // 任务 1: Collect
-        scheduler.every(1.day()).at(&collect_time).run(move || {
-            service::collect_records_of_source::trigger();
-        });
-
         scheduler.every(1.day()).at(&generate_time).run(move || {
-            service::call_n8n_workflow_webhook::trigger();
+            service::collect_records_of_source::trigger();
         });
 
         // 循环检查

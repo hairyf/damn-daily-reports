@@ -18,7 +18,7 @@ pub fn run() {
         Migration {
             version: 1,
             description: "initialize database",
-            sql: include_str!("../prisma/migrations/20260117173215/migration.sql"),
+            sql: include_str!("../prisma/migrations/20260118100407/migration.sql"),
             kind: MigrationKind::Up,
         },
     ];

@@ -6,8 +6,8 @@ use serde::Serialize;
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq, Serialize)]
 #[sea_orm(table_name = "record")]
 pub struct Model {
-    #[sea_orm(primary_key)]
-    pub id: i32,
+    #[sea_orm(primary_key, auto_increment = false, column_type = "Text")]
+    pub id: String,
     #[sea_orm(column_type = "Text")]
     pub summary: String,
     #[sea_orm(column_type = "custom(\"JSONB\")")]

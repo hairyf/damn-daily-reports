@@ -1,8 +1,5 @@
-import type { Selectable } from 'kysely'
-import type { Source } from '@/database/types'
-
 export async function invokeCollectAll(): Promise<void> {
-  const sources = await sql_querySources({ enabled: true, page: 1, pageSize: 100 }) as Selectable<Source>[]
+  const sources = await db.source.findMany({ enabled: true, page: 1, pageSize: 100 })
 
   const promises = sources.map(async (source) => {
     const defaultData = {
@@ -16,6 +13,7 @@ export async function invokeCollectAll(): Promise<void> {
         id: item.id,
         summary: item.message,
         data: item,
+        workspaceId: source.workspaceId,
         ...defaultData,
       }))
     }
@@ -24,6 +22,7 @@ export async function invokeCollectAll(): Promise<void> {
       id: item.id,
       summary: item.name,
       data: item,
+      workspaceId: source.workspaceId,
       ...defaultData,
     }))
   })
@@ -42,6 +41,6 @@ export async function invokeCollectAll(): Promise<void> {
   const uniqueRecords = records.filter(record => !existingIds.has(record.id))
 
   if (uniqueRecords.length > 0) {
-    await db.insertInto('record').values(uniqueRecords).execute()
+    await db.record.createMany(uniqueRecords)
   }
 }

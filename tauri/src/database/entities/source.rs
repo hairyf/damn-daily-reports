@@ -2,6 +2,7 @@
 
 use sea_orm::entity::prelude::*;
 use serde::Serialize;
+
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq, Serialize)]
 #[sea_orm(table_name = "source")]
 pub struct Model {

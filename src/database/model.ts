@@ -12,7 +12,7 @@ export class Model<DB, TB extends keyof DB & string, PK extends keyof DB[TB] & s
   }
 
   createMany(values: Insertable<DB[TB]>[]) {
-    return this.db.insertInto(this.table).values(values)
+    return this.db.insertInto(this.table).values(values).execute()
   }
 
   async delete(id: DB[TB][PK]): Promise<DeleteResult> {

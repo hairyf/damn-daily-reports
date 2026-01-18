@@ -14,6 +14,7 @@
     "tauri": "tauri",
     "lint": "eslint .",
     "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
     "sea:generate": "cd tauri && sea-orm-cli generate entity -u sqlite://./prisma/database/main.db -o src/database/entities"
   },
   "dependencies": {
