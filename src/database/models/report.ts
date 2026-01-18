@@ -3,10 +3,16 @@ import dayjs from 'dayjs'
 import { Model } from '../model'
 
 export interface ReportFindManyInput {
+  workspace?: number
   search?: string
   type?: string
   page?: number
   pageSize?: number
+}
+
+export interface ReportFindByTypeInput {
+  type: 'daily' | 'weekly' | 'monthly' | 'yearly'
+  workspace?: number
 }
 
 export class Report extends Model<DB, 'report'> {
@@ -15,8 +21,10 @@ export class Report extends Model<DB, 'report'> {
   }
 
   findMany(input: ReportFindManyInput) {
-    const { search, type, page = 1, pageSize = 10 } = input
-    let query = this.db.selectFrom('report').selectAll()
+    const { search, type, workspace, page = 1, pageSize = 10 } = input
+    let query = this.db.selectFrom('report')
+      .selectAll()
+      .innerJoin('workspace', 'workspace.id', 'report.workspaceId') // 关联 workspace 表，条件是 id 匹配
 
     // 如果search不为空，添加搜索条件
     if (search) {
@@ -34,6 +42,10 @@ export class Report extends Model<DB, 'report'> {
       query = query.where('type', '=', type)
     }
 
+    if (typeof workspace === 'number') {
+      query = query.where('workspace.id', '=', workspace)
+    }
+
     // 排序
     query = query.orderBy('createdAt', 'desc')
 
@@ -46,7 +58,8 @@ export class Report extends Model<DB, 'report'> {
     return query.execute()
   }
 
-  async findFirstByType(type: 'daily' | 'weekly' | 'monthly' | 'yearly') {
+  async findFirstByType(input: ReportFindByTypeInput) {
+    const { type, workspace } = input
     // 根据类型计算时间范围
     let startTime: dayjs.Dayjs
     let endTime: dayjs.Dayjs
@@ -72,17 +85,22 @@ export class Report extends Model<DB, 'report'> {
 
     try {
       // 查询匹配的报告
-      const result = await db
+      let query = db
         .selectFrom('report')
+        .innerJoin('workspace', 'workspace.id', 'report.workspaceId') // 关联 workspace 表，条件是 id 匹配
         .selectAll()
         .where('type', '=', type)
-        .where('createdAt', '>=', startTime.toDate() as any)
+
+      if (typeof workspace === 'number') {
+        query = query.where('workspace.id', '=', workspace)
+      }
+
+      query = query.where('createdAt', '>=', startTime.toDate() as any)
         .where('createdAt', '<=', endTime.toDate() as any)
         .orderBy('createdAt', 'desc')
         .limit(1)
-        .execute()
 
-      return result[0] || null
+      return query.executeTakeFirst()
     }
     catch {
       return null

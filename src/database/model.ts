@@ -1,14 +1,14 @@
 /* eslint-disable ts/ban-ts-comment */
-import type { DeleteResult, Insertable, Kysely, Selectable, Updateable, UpdateResult } from 'kysely'
+import type { DeleteResult, Insertable, InsertResult, Kysely, Selectable, Updateable, UpdateResult } from 'kysely'
 
 export class Model<DB, TB extends keyof DB & string, PK extends keyof DB[TB] & string = keyof DB[TB] & string> {
   constructor(protected db: Kysely<DB>, private table: TB, private primaryKey: keyof DB[TB] & string) { }
 
-  create(value: Insertable<DB[TB]>) {
+  create(value: Insertable<DB[TB]>): Promise<InsertResult> {
     const sql = this.db.insertInto(this.table)
     if (Object.keys(value).length > 0)
-      return sql.values(value).execute()
-    return sql.defaultValues().execute()
+      return sql.values(value).execute().then(result => result[0])
+    return sql.defaultValues().execute().then(result => result[0])
   }
 
   createMany(values: Insertable<DB[TB]>[]) {
@@ -52,11 +52,10 @@ export class Model<DB, TB extends keyof DB & string, PK extends keyof DB[TB] & s
   }
 
   async findUnique(id: DB[TB][PK]): Promise<Selectable<DB[TB]>> {
-    const result = await this.db.selectFrom(this.table)
+    return this.db.selectFrom(this.table)
       .selectAll()
       // @ts-ignore
       .where(this.primaryKey, '=', id as any)
       .executeTakeFirst()
-    return result[0]
   }
 }

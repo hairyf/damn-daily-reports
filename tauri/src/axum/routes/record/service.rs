@@ -51,6 +51,7 @@ pub fn get_time_range(r#type: &RecordType) -> (DateTime<Utc>, DateTime<Utc>) {
 pub async fn get_records(
   db: Arc<DatabaseConnection>,
   r#type: &RecordType,
+  workflow_id: Option<String>,
 ) -> Result<Vec<record::Model>, sea_orm::DbErr> {
   // 计算时间范围
   let (start_time, end_time) = get_time_range(r#type);
@@ -59,6 +60,7 @@ pub async fn get_records(
 
   // 查询记录
   let records = prelude::Record::find()
+    .filter(record::Column::WorkflowId.eq(workflow_id.unwrap_or_default()))
     .filter(record::Column::CreatedAt.gte(start_iso.clone()))
     .filter(record::Column::CreatedAt.lte(end_iso.clone()))
     .order_by_desc(record::Column::CreatedAt)

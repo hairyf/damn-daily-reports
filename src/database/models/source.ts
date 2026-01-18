@@ -2,6 +2,7 @@ import type { Kysely } from 'kysely'
 import { Model } from '../model'
 
 export interface SourceFindManyInput {
+  workspace?: number
   enabled?: boolean
   search?: string
   type?: string
@@ -15,9 +16,9 @@ export class Source extends Model<DB, 'source'> {
   }
 
   async findMany(input: SourceFindManyInput) {
-    const { search, type, enabled, page = 1, pageSize = 10 } = input
+    const { search, type, enabled, workspace, page = 1, pageSize = 10 } = input
 
-    let query = db.selectFrom('source').selectAll()
+    let query = this.db.selectFrom('source').selectAll().innerJoin('workspace', 'workspace.id', 'source.workspaceId') // 关联 workspace 表，条件是 id 匹配
 
     // 如果search不为空，添加搜索条件
     if (search) {
@@ -28,6 +29,10 @@ export class Source extends Model<DB, 'source'> {
           eb('description', 'like', searchPattern),
         ]),
       )
+    }
+
+    if (typeof workspace === 'number') {
+      query = query.where('workspace.id', '=', workspace)
     }
 
     // 如果type不为空，添加类型过滤

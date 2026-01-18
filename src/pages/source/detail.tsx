@@ -7,11 +7,11 @@ import { SourceFormGit } from '@/components/souce-form-git'
 function Page() {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
-  const sourceId = searchParams.get('id') || ''
+  const sourceId = Number(searchParams.get('id')) || 0
   const [configs, setConfigs] = useState<Record<string, any>>({})
   const form = useForm({
     defaultValues: {
-      id: '',
+      id: 0,
       name: '',
       description: '',
       type: '',
@@ -42,7 +42,7 @@ function Page() {
   }
   useWhenever(sourceId, reset, { immediate: true })
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = form.handleSubmit(async (data) => {
     if (sourceId) {
       await db.source.update(sourceId, { ...data })
       addToast({
@@ -52,20 +52,24 @@ function Page() {
       })
     }
     else {
-      await db.source.create({ ...data, enabled: true })
+      await db.source.create({
+        updatedAt: new Date().toISOString(),
+        enabled: true,
+        workspaceId: 0,
+        ...data,
+      })
       addToast({
         title: 'Success',
         description: 'Source created successfully',
         color: 'success',
       })
     }
-    // navigate('/source')
-    reset()
+    navigate('/source')
     queryClient.invalidateQueries({ queryKey: ['sources'] })
-  }
+  })
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4">
+      <form onSubmit={onSubmit} className="flex flex-col gap-4">
         <FormField
           control={form.control}
           name="name"

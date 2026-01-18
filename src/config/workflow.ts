@@ -1,4 +1,5 @@
 export interface ReportWorkflowOptions {
+  workflowId: string | number
   credentials: {
     deepSeekApi?: {
       id: string
@@ -208,7 +209,10 @@ export function get_report_workflow_params(options: ReportWorkflowOptions) {
                 name: 'type',
                 value: 'weekly',
               },
-              {},
+              {
+                name: 'workflowId',
+                value: options.workflowId,
+              },
             ],
           },
           options: {},

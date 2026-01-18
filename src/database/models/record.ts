@@ -4,6 +4,7 @@ import { Model } from '../model'
 export interface RecordFindManyInput {
   search?: string
   source?: string
+  workspace?: number
   page?: number
   pageSize?: number
 }
@@ -14,11 +15,12 @@ export class Record extends Model<DB, 'record'> {
   }
 
   findMany(input: RecordFindManyInput) {
-    const { search, source, page = 1, pageSize = 10 } = input
+    const { search, source, workspace, page = 1, pageSize = 10 } = input
 
     let query = this.db
       .selectFrom('record') // 从 record 表开始查询
       .innerJoin('source', 'source.id', 'record.sourceId') // 关联 source 表，条件是 id 匹配
+      .innerJoin('workspace', 'workspace.id', 'record.workspaceId') // 关联 workspace 表，条件是 id 匹配
       .selectAll('record') // 选中 record 表的所有字段
       .select([
         'source.name as sourceName', // 也可以顺便选出 source 的一些字段
@@ -38,6 +40,11 @@ export class Record extends Model<DB, 'record'> {
     // 如果 source 不为空，添加来源过滤
     if (source) {
       query = query.where('source.type', '=', 'git')
+    }
+
+    // 如果 workspace 不为空，添加 workspace 过滤
+    if (typeof workspace === 'number') {
+      query = query.where('workspace.id', '=', workspace)
     }
 
     query = query.orderBy('createdAt', 'desc')

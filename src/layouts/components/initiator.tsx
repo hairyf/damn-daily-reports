@@ -55,7 +55,17 @@ export function Initiator() {
   }
 
   async function initializeN8nWorkflow() {
+    const { insertId } = await db.workspace.create({
+      name: 'Automation Report Workflow',
+      workflow: '__workflow__',
+    })
+    const workspaceId = insertId?.toString()
+
+    if (!workspaceId)
+      throw new TypeError('Failed to create workspace')
+
     const data = await postN8nWorkflow(get_report_workflow_params({
+      workflowId: Number(workspaceId),
       credentials: {
         deepSeekApi: credentialId
           ? {
@@ -65,7 +75,13 @@ export function Initiator() {
           : undefined,
       },
     }))
-    store.user.$patch({ workflowId: data?.id })
+
+    if (!data?.id)
+      throw new TypeError('Failed to create workflow')
+
+    await db.workspace.update(workspaceId, { workflow: data.id })
+
+    store.user.$patch({ workflowId: data.id, workspaceId: Number(workspaceId) })
   }
 
   useWhenever(

@@ -44,11 +44,13 @@ export const user = defineStore({
     n8nEmail: '',
     n8nPassword: '',
 
-    credentialId: '' as string | null,
-    credentialName: '' as string | null,
+    credentialId: null as string | null,
+    credentialName: null as string | null,
     deepseekSkip: false,
 
-    workflowId: '' as string | null,
+    workflowId: null as string | null,
+
+    workspaceId: null as number | null,
   }),
   getters: {
     initialized() {
